@@ -14,14 +14,14 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component } from "vue-property-decorator";
 // import users from '../store/modules/users';
 
 @Component
 export default class AppHeader extends Vue {
   public signoutUser() {
     // users.setUser('');
-    this.$router.push('/login');
+    this.$router.push("/login");
   }
 }
 </script>
