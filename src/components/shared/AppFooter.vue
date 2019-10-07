@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="dark" variant="light" fixed="bottom">
+    <b-navbar toggleable="lg" type="dark" variant="light">
       <b-collapse id="nav-collapse" is-nav>
         <span>Add somethings here !</span>
         <!-- Right aligned nav items -->
@@ -14,6 +14,13 @@
     </b-navbar>
   </div>
 </template>
+
+<script lang="ts">
+import { Vue, Component } from "vue-property-decorator";
+
+@Component
+export default class AppFooter extends Vue {}
+</script>
 
 <style scoped>
 .footer-heart {

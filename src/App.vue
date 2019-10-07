@@ -8,7 +8,8 @@
 
 <script lang='ts'>
 import { Vue, Component } from "vue-property-decorator";
-import { AppFooter, AppNavbar } from "@/components/shared";
+import AppFooter from "@/components/shared/AppFooter.vue";
+import AppNavbar from "@/components/shared/AppNavbar.vue";
 
 @Component({
   components: { AppFooter, AppNavbar }
