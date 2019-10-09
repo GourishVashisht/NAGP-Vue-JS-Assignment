@@ -7,6 +7,17 @@ export default new Router({
   mode: "hash",
   base: process.env.BASE_URL,
   routes: [
+
+    {
+      name: "root",
+      path: "/",
+      redirect: "/home"
+    },
+    {
+      name: "home",
+      path: "/home",
+      component: () => import("@/views/Home.vue")
+    },
     {
       name: "article",
       path: "/article",
@@ -16,11 +27,6 @@ export default new Router({
       name: "editor",
       path: "/editor",
       component: () => import("@/views/Editor.vue")
-    },
-    {
-      name: "home",
-      path: "/home",
-      component: () => import("@/views/Home.vue")
     },
     {
       name: "login",
@@ -34,7 +40,7 @@ export default new Router({
     },
     {
       name: "profile",
-      path: "/profile",
+      path: "/@:username",
       component: () => import("@/views/Profile.vue")
     },
     {

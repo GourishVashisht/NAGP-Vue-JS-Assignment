@@ -6,8 +6,20 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-item to="/home">Home</b-nav-item>
-          <b-nav-item to="/login">Sign In</b-nav-item>
-          <b-nav-item to="/register">Sign Up</b-nav-item>
+          <b-nav-item v-if="!username" to="/login">Sign In</b-nav-item>
+          <b-nav-item v-if="!username" to="/register">Sign Up</b-nav-item>
+          <b-nav-item v-if="username" to="/editor">New Article</b-nav-item>
+          <b-nav-item v-if="username" to="/settings">Settings</b-nav-item>
+
+          <b-nav-item-dropdown v-if="username" right>
+            <template v-slot:button-content>
+              <em>{{username}}</em>
+            </template>
+            <b-dropdown-item>
+              <router-link :to="'@' + username">Profile</router-link>
+            </b-dropdown-item>
+            <b-dropdown-item @click="signoutUser()">Sign Out</b-dropdown-item>
+          </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -16,13 +28,19 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-// import users from '../store/modules/users';
+import users from "@/store/modules/UserModule";
 
 @Component
 export default class AppNavbar extends Vue {
-  public signoutUser() {
-    // users.setUser('');
-    this.$router.push("/login");
+  get username(): string {
+    return users.username;
+  }
+
+  public signoutUser(): void {
+    users.logoutUser();
+    if (this.$route.path !== "/home") {
+      this.$router.push("/home");
+    }
   }
 }
 </script>
