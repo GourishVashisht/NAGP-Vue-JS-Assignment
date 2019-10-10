@@ -7,20 +7,14 @@ export default new Router({
   mode: "hash",
   base: process.env.BASE_URL,
   routes: [
-
-    {
-      name: "root",
-      path: "/",
-      redirect: "/home"
-    },
     {
       name: "home",
-      path: "/home",
+      path: "/",
       component: () => import("@/views/Home.vue")
     },
     {
       name: "article",
-      path: "/article",
+      path: "/articles/:slug",
       component: () => import("@/views/Article.vue")
     },
     {
