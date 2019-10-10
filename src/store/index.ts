@@ -17,6 +17,6 @@ export default new Vuex.Store({
   },
   actions: {
 
-  },
-  plugins: [vuexLocalStorage.plugin]
+  }
+  // plugins: [vuexLocalStorage.plugin]
 });
