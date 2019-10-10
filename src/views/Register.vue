@@ -65,7 +65,7 @@ export default class Register extends Vue {
     users
       .registerUser(user)
       .then((res) => {
-        this.$router.push("/home");
+        this.$router.push("/");
       })
       .catch((err) => {
         // console.log(err);

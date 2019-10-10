@@ -5,7 +5,7 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
-          <b-nav-item to="/home">Home</b-nav-item>
+          <b-nav-item to="/">Home</b-nav-item>
           <b-nav-item v-if="!username" to="/login">Sign In</b-nav-item>
           <b-nav-item v-if="!username" to="/register">Sign Up</b-nav-item>
           <b-nav-item v-if="username" to="/editor">New Article</b-nav-item>
@@ -38,8 +38,8 @@ export default class AppNavbar extends Vue {
 
   public signoutUser(): void {
     users.logoutUser();
-    if (this.$route.path !== "/home") {
-      this.$router.push("/home");
+    if (this.$route.path !== "/") {
+      this.$router.push("/");
     }
   }
 }

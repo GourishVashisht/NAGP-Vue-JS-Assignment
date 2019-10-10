@@ -53,7 +53,7 @@ export default class Login extends Vue {
     };
     users.loginUser(user)
       .then((res) => {
-        this.$router.push("/home");
+        this.$router.push("/");
       })
       .catch((err) => {
         // console.log(err);
