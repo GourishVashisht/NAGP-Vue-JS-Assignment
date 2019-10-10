@@ -33,7 +33,7 @@
 import { Vue, Component } from "vue-property-decorator";
 import { ArticleService } from "@/services/ArticleService";
 import { Article } from "@/models/Article";
-import ArticlePreview from "@/components/shared/ArticlePreview";
+import ArticlePreview from "@/components/article/ArticlePreview";
 import articles from "@/store/modules/ArticleModule";
 
 @Component({
