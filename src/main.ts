@@ -8,10 +8,12 @@ import store from "./store";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import * as icons from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import DateFilter from "@/common/date.filter";
 
 library.add(icons.faHeart);
 
 Vue.component("fa-icon", FontAwesomeIcon);
+Vue.filter("date", DateFilter);
 
 Vue.config.productionTip = false;
 

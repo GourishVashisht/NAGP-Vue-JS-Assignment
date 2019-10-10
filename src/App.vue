@@ -10,8 +10,8 @@
 
 <script lang='ts'>
 import { Vue, Component } from "vue-property-decorator";
-import AppFooter from "@/components/shared/AppFooter.vue";
-import AppNavbar from "@/components/shared/AppNavbar.vue";
+import AppFooter from "@/components/shared/AppFooter";
+import AppNavbar from "@/components/shared/AppNavbar";
 
 @Component({
   components: { AppFooter, AppNavbar }
@@ -20,9 +20,6 @@ export default class App extends Vue {}
 </script>
 
 <style>
-body {
-  background-color: rgb(247, 230, 230);
-}
 .routes {
   margin-top: 54px;
   margin-bottom: 54px;
