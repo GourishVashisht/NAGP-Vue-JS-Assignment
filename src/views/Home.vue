@@ -13,72 +13,44 @@
           <div class="feed-toggle">
             <ul class="nav nav-pills outline-active">
               <li class="nav-item">
-                <a class="nav-link disabled" href>Your Feed</a>
+                <a class="nav-link" to="/">Your Feed</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href>Global Feed</a>
+                <router-link class="nav-link" active-class="active" to="/">Global Feed</router-link>
               </li>
             </ul>
           </div>
 
-          <div class="article-preview">
-            <div class="article-meta">
-              <a href="profile.html">
-                <img src="http://i.imgur.com/Qr71crq.jpg" />
-              </a>
-              <div class="info">
-                <a href class="author">Eric Simons</a>
-                <span class="date">January 20th</span>
-              </div>
-              <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                <i class="ion-heart"></i> 29
-              </button>
-            </div>
-            <a href class="preview-link">
-              <h1>How to build webapps that scale</h1>
-              <p>This is the description for the post.</p>
-              <span>Read more...</span>
-            </a>
-          </div>
-
-          <div class="article-preview">
-            <div class="article-meta">
-              <a href="profile.html">
-                <img src="http://i.imgur.com/N4VcUeJ.jpg" />
-              </a>
-              <div class="info">
-                <a href class="author">Albert Pai</a>
-                <span class="date">January 20th</span>
-              </div>
-              <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                <i class="ion-heart"></i> 32
-              </button>
-            </div>
-            <a href class="preview-link">
-              <h1>The song you won't ever stop singing. No matter how hard you try.</h1>
-              <p>This is the description for the post.</p>
-              <span>Read more...</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="sidebar">
-            <p>Popular Tags</p>
-
-            <div class="tag-list">
-              <a href class="tag-pill tag-default">programming</a>
-              <a href class="tag-pill tag-default">javascript</a>
-              <a href class="tag-pill tag-default">emberjs</a>
-              <a href class="tag-pill tag-default">angularjs</a>
-              <a href class="tag-pill tag-default">react</a>
-              <a href class="tag-pill tag-default">mean</a>
-              <a href class="tag-pill tag-default">node</a>
-              <a href class="tag-pill tag-default">rails</a>
-            </div>
-          </div>
+          <div v-if="isLoading" class="article-preview">Loading articles...</div>
+          <ArticlePreview v-for="article in articles" :article="article" :key="article.slug"></ArticlePreview>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script lang="ts">
+import { Vue, Component } from "vue-property-decorator";
+import { ArticleService } from "@/services/ArticleService";
+import { Article } from "@/models/Article";
+import ArticlePreview from "@/components/shared/ArticlePreview";
+import articles from "@/store/modules/ArticleModule";
+
+@Component({
+  components: {
+    ArticlePreview
+  }
+})
+export default class Home extends Vue {
+  private isLoading = true;
+
+  get articles() {
+    return articles.articles;
+  }
+
+  public async created() {
+    await articles.getArticles();
+    this.isLoading = false;
+  }
+}
+</script>

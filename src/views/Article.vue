@@ -1,22 +1,27 @@
 <template>
-  <div class="article-page">
+  <div class="article-page" v-if="article">
     <div class="banner">
       <div class="container">
-        <h1>How to build webapps that scale</h1>
+        <h1>{{ article.title }}</h1>
 
         <div class="article-meta">
-          <a href>
-            <img src="http://i.imgur.com/Qr71crq.jpg" />
-          </a>
+          <router-link :to="'/@' + article.author.username">
+            <img :src="article.author.image" />
+          </router-link>
           <div class="info">
-            <a href class="author">Eric Simons</a>
-            <span class="date">January 20th</span>
+            <router-link
+              class="author"
+              :to="'/@' + article.author.username"
+            >{{ article.author.username }}</router-link>
+            <span class="date">{{ article.createdAt | date }}</span>
           </div>
           <button class="btn btn-sm btn-outline-secondary">
             <i class="ion-plus-round"></i>
             &nbsp;
-            Follow Eric Simons
-            <span class="counter">(10)</span>
+            Follow {{ article.author.username }}
+            <span
+              class="counter"
+            >(10)</span>
           </button>
           &nbsp;&nbsp;
           <button class="btn btn-sm btn-outline-primary">
@@ -32,9 +37,12 @@
     <div class="container page">
       <div class="row article-content">
         <div class="col-md-12">
-          <p>Web development technologies have evolved at an incredible clip over the past few years.</p>
-          <h2 id="introducing-ionic">Introducing RealWorld.</h2>
-          <p>It's a great solution for learning how other frameworks work.</p>
+          <p>{{article.body}}</p>
+          <ul class="tag-list">
+            <li v-for="(tag, index) in article.tagList" :key="index">
+              <router-link class="tag-default tag-pill tag-outline" to="/">{{tag}}</router-link>
+            </li>
+          </ul>
         </div>
       </div>
 
@@ -42,18 +50,21 @@
 
       <div class="article-actions">
         <div class="article-meta">
-          <a href="profile.html">
-            <img src="http://i.imgur.com/Qr71crq.jpg" />
-          </a>
+          <router-link :to="'/@' + article.author.username">
+            <img :src="article.author.image" />
+          </router-link>
           <div class="info">
-            <a href class="author">Eric Simons</a>
-            <span class="date">January 20th</span>
+            <router-link
+              class="author"
+              :to="'/@' + article.author.username"
+            >{{ article.author.username }}</router-link>
+            <span class="date">{{ article.createdAt | date }}</span>
           </div>
 
           <button class="btn btn-sm btn-outline-secondary">
             <i class="ion-plus-round"></i>
             &nbsp;
-            Follow Eric Simons
+            Follow {{ article.author.username }} 
             <span class="counter">(10)</span>
           </button>
           &nbsp;
@@ -66,7 +77,7 @@
         </div>
       </div>
 
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-xs-12 col-md-8 offset-md-2">
           <form class="card comment-form">
             <div class="card-block">
@@ -114,7 +125,23 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
+
+<script lang="ts">
+import { Vue, Component } from "vue-property-decorator";
+import { Article } from "@/models/Article";
+import articles from "@/store/modules/ArticleModule";
+
+@Component
+export default class Article extends Vue {
+  get article() {
+    return articles.article;
+  }
+  private created() {
+    articles.getArticle(this.$route.params.slug);
+  }
+}
+</script>
