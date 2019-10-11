@@ -32,7 +32,7 @@ import users from "@/store/modules/UserModule";
 
 @Component
 export default class AppNavbar extends Vue {
-  get username(): string {
+  get username(): string | null {
     return users.username;
   }
 

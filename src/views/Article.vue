@@ -85,8 +85,8 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import articles from "@/store/modules/ArticleModule";
-import Comment from "@/components/comments/Comment";
-import CommentEditor from "@/components/comments/CommentEditor";
+import Comment from "@/components/comments/Comment.vue";
+import CommentEditor from "@/components/comments/CommentEditor.vue";
 
 @Component
 export default class Article extends Vue {

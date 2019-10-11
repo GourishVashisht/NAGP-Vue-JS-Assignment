@@ -28,7 +28,7 @@ class ArticleModule extends VuexModule {
     }
 
     @MutationAction
-    public async addArticle(art: Article) {
+    public async addArticle(art: Article | any) {
         const article = await ArticleService.addArticle(art);
         return { article };
     }
