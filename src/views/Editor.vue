@@ -58,11 +58,40 @@ export default class Editor extends Vue {
   private body: string = "";
 
   public submitArticle(): void {
-    articles.addArticle({
-      title: this.title,
-      descrption: this.description,
-      body: this.body
-    });
+    if (this.$route.params.slug) {
+      articles
+        .modifyArticle({
+          slug: this.$route.params.slug,
+          art: {
+            title: this.title,
+            description: this.description,
+            body: this.body
+          }
+        })
+        .then(() => {
+          this.$router.push("/articles/" + articles.article.slug);
+        });
+    } else {
+      articles
+        .addArticle({
+          title: this.title,
+          description: this.description,
+          body: this.body
+        })
+        .then(() => {
+          this.$router.push("/articles/" + articles.article.slug);
+        });
+    }
+  }
+
+  private created() {
+    if (this.$route.params.slug) {
+      articles.getArticle(this.$route.params.slug).then(() => {
+        this.title = articles.article.title;
+        this.description = articles.article.description;
+        this.body = articles.article.body;
+      });
+    }
   }
 }
 </script>

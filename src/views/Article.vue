@@ -15,21 +15,7 @@
             >{{ article.author.username }}</router-link>
             <span class="date">{{ article.createdAt | date }}</span>
           </div>
-          <button class="btn btn-sm btn-outline-secondary">
-            <i class="ion-plus-round"></i>
-            &nbsp;
-            Follow {{ article.author.username }}
-            <span
-              class="counter"
-            >(10)</span>
-          </button>
-          &nbsp;&nbsp;
-          <button class="btn btn-sm btn-outline-primary">
-            <i class="ion-heart"></i>
-            &nbsp;
-            Favorite Post
-            <span class="counter">(29)</span>
-          </button>
+          <ArticleActions :canModify="isCurrentUser()" :slug="article.slug"></ArticleActions>
         </div>
       </div>
     </div>
@@ -61,21 +47,7 @@
             <span class="date">{{ article.createdAt | date }}</span>
           </div>
 
-          <button class="btn btn-sm btn-outline-secondary">
-            <i class="ion-plus-round"></i>
-            &nbsp;
-            Follow {{ article.author.username }}
-            <span
-              class="counter"
-            >(10)</span>
-          </button>
-          &nbsp;
-          <button class="btn btn-sm btn-outline-primary">
-            <i class="ion-heart"></i>
-            &nbsp;
-            Favorite Post
-            <span class="counter">(29)</span>
-          </button>
+          <ArticleActions :canModify="isCurrentUser()" :slug="article.slug"></ArticleActions>
         </div>
       </div>
     </div>
@@ -84,19 +56,43 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import { Article } from "@/models/Article";
+import { UserResponse } from "@/models/User";
 import articles from "@/store/modules/ArticleModule";
+import users from "@/store/modules/UserModule";
 import Comment from "@/components/comments/Comment.vue";
 import CommentEditor from "@/components/comments/CommentEditor.vue";
+import ArticleActions from "@/components/article/ArticleActions.vue";
 
-@Component
-export default class Article extends Vue {
-  private isAuthenticated = true;
-
-  get article() {
-    return articles.article;
+@Component({
+  components: {
+    ArticleActions
   }
+})
+export default class Articlee extends Vue {
+  private isAuthenticated = true;
+  private article: Article | null;
+  private user: UserResponse | null;
+
+  constructor() {
+    super();
+    this.article = null;
+    this.user = null;
+  }
+
   private created() {
-    articles.getArticle(this.$route.params.slug);
+    articles.getArticle(this.$route.params.slug).then(() => {
+      this.article = articles.article;
+    });
+    users.fetchUser().then(() => {
+      this.user = users.user;
+    });
+  }
+
+  private isCurrentUser(): boolean {
+    return this.user!.username && this.article!.author.username
+      ? this.user!.username === this.article!.author.username
+      : false;
   }
 }
 </script>

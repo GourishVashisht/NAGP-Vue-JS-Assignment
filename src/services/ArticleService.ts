@@ -1,5 +1,6 @@
-import { api } from "./api";
+import { api, setJWT } from "./api";
 import { Article } from "@/models/Article";
+import JWTService from "./JWTService";
 
 export const ArticleService = {
 
@@ -16,6 +17,19 @@ export const ArticleService = {
             article
         });
         return res.data.article;
+    },
+    async deleteArticle(slug: string): Promise<Article> {
+        await setJWT(typeof (JWTService.getJWTToken()) === "string"
+            ? String(JWTService.getJWTToken()) : "");
+        const res = await api.delete("/articles/" + slug);
+        return res.data.article;
+    },
+    async modifyArticle(slug: string, article: Article): Promise<Article> {
+        await setJWT(typeof (JWTService.getJWTToken()) === "string"
+            ? String(JWTService.getJWTToken()) : "");
+        const res = await api.put("/articles/" + slug, {
+            article
+        });
+        return res.data.article;
     }
-
 };

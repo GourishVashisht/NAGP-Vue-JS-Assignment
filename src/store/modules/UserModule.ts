@@ -30,6 +30,13 @@ class UserModule extends VuexModule {
     }
 
     @MutationAction
+    public async fetchUser() {
+        const user: UserResponse = await UserService.fetchUser();
+        JWTService.saveJWTToken(user.token);
+        return { user };
+    }
+
+    @MutationAction
     public async registerUser(user1: User) {
         const user: UserResponse = await UserService.registerUser(user1);
         JWTService.saveJWTToken(user.token);

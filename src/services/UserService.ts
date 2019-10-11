@@ -1,5 +1,6 @@
 import { User, UserResponse } from "@/models/User";
-import { api } from "./api";
+import { api, setJWT } from "./api";
+import JWTService from "./JWTService";
 
 export const UserService = {
 
@@ -18,8 +19,10 @@ export const UserService = {
     },
 
     async fetchUser(): Promise<UserResponse> {
-        const userResponse: UserResponse = await api.get("/user");
-        return userResponse;
+        await setJWT(typeof (JWTService.getJWTToken()) === "string"
+            ? String(JWTService.getJWTToken()) : "");
+        const userResponse = await api.get("/user");
+        return userResponse.data.user;
     }
 
 };

@@ -33,6 +33,17 @@ class ArticleModule extends VuexModule {
         return { article };
     }
 
+    @MutationAction
+    public async deleteArticle(slug: string) {
+        const article = await ArticleService.deleteArticle(slug);
+        return { article };
+    }
+
+    @MutationAction
+    public async modifyArticle({slug, art}) {
+        const article = await ArticleService.modifyArticle(slug, art);
+        return { article };
+    }
 }
 
 export default getModule(ArticleModule);
