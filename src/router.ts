@@ -19,7 +19,7 @@ export default new Router({
     },
     {
       name: "editor",
-      path: "/editor",
+      path: "/editor/:slug?",
       component: () => import("@/views/Editor.vue")
     },
     {
