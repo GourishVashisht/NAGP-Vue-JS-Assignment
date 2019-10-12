@@ -3,7 +3,7 @@ import {
 } from "vuex-module-decorators";
 import store from "@/store";
 import { ArticleService } from "@/services/ArticleService";
-import { Article } from "@/models/Article";
+import { Article, ArticleResponse } from "@/models/Article";
 
 @Module({
     dynamic: true,
@@ -13,12 +13,26 @@ import { Article } from "@/models/Article";
 class ArticleModule extends VuexModule {
 
     public articles: Article[] = [];
+    public feed: Article[] = [];
     public article: Article | null = null;
+    public articlesCount: number = 0;
 
     @MutationAction
-    public async getArticles() {
-        const articles = await ArticleService.getArticles();
-        return { articles };
+    public async getArticles({ offset, limit }: { offset: number, limit: number }) {
+        const articleResponse: ArticleResponse = await ArticleService.getArticles(offset, limit);
+        return {
+            articles: articleResponse.articles,
+            articlesCount: articleResponse.articlesCount
+        };
+    }
+
+    @MutationAction
+    public async getFeed({ offset, limit }: { offset: number, limit: number }) {
+        const articleResponse: ArticleResponse = await ArticleService.getFeed(offset, limit);
+        return {
+            feed: articleResponse.articles,
+            articlesCount: articleResponse.articlesCount
+        };
     }
 
     @MutationAction
@@ -40,7 +54,7 @@ class ArticleModule extends VuexModule {
     }
 
     @MutationAction
-    public async modifyArticle({slug, art}) {
+    public async modifyArticle({ slug, art }: { slug: string, art: Article }) {
         const article = await ArticleService.modifyArticle(slug, art);
         return { article };
     }

@@ -8,9 +8,20 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      name: "home",
       path: "/",
-      component: () => import("@/views/Home.vue")
+      component: () => import("@/views/Home.vue"),
+      children: [
+        {
+          name: "home",
+          path: "/",
+          component: () => import("@/views/GlobalFeed.vue")
+        },
+        {
+          name: "home-my-feed",
+          path: "/my-feed",
+          component: () => import("@/views/MyFeed.vue")
+        }
+      ]
     },
     {
       name: "article",

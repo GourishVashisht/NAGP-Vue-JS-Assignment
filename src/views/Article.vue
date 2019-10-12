@@ -90,9 +90,13 @@ export default class Articlee extends Vue {
   }
 
   private isCurrentUser(): boolean {
-    return this.user!.username && this.article!.author.username
-      ? this.user!.username === this.article!.author.username
-      : false;
+    if (this.user && this.article.author) {
+      return this.user!.username && this.article!.author.username
+        ? this.user!.username === this.article!.author.username
+        : false;
+    } else {
+      return false;
+    }
   }
 }
 </script>

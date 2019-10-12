@@ -1,12 +1,18 @@
 import { api, setJWT } from "./api";
-import { Article } from "@/models/Article";
+import { Article, ArticleResponse } from "@/models/Article";
 import JWTService from "./JWTService";
 
 export const ArticleService = {
 
-    async getArticles(): Promise<Article[]> {
-        const res = await api.get("/articles");
-        return res.data.articles;
+    async getArticles(offset: number, limit: number): Promise<ArticleResponse> {
+        const res = await api.get(`/articles?offset=${offset}&limit=${limit}`);
+        return res.data;
+    },
+    async getFeed(offset: number, limit: number): Promise<ArticleResponse> {
+        await setJWT(typeof (JWTService.getJWTToken()) === "string"
+            ? String(JWTService.getJWTToken()) : "");
+        const res = await api.get(`/articles/feed?offset=${offset}&limit=${limit}`);
+        return res.data;
     },
     async getArticle(slug: string): Promise<Article> {
         const res = await api.get("/articles/" + slug);

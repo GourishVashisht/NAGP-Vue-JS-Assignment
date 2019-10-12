@@ -16,3 +16,8 @@ export interface Author {
     image: string;
     following: boolean;
 }
+
+export interface ArticleResponse {
+    articles: Article[];
+    articlesCount: number;
+}
