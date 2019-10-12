@@ -1,5 +1,5 @@
 <template>
-  <div class="auth-page">
+  <div class="login auth-page">
     <div class="container page">
       <div class="row">
         <div class="col-md-6 offset-md-3 col-xs-12">
@@ -51,7 +51,8 @@ export default class Login extends Vue {
       email: this.email,
       password: this.password
     };
-    users.loginUser(user)
+    users
+      .loginUser(user)
       .then((res) => {
         this.$router.push("/");
       })
@@ -61,3 +62,9 @@ export default class Login extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.login {
+  margin-top: 60px;
+}
+</style>

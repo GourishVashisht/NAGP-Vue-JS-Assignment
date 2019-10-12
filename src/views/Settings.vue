@@ -1,9 +1,9 @@
 <template>
-  <div class="settings-page">
+  <div class="settings settings-page">
     <div class="container page">
       <div class="row">
         <div class="col-md-6 offset-md-3 col-xs-12">
-          <h1 class="text-xs-center">Your Settings</h1>
+          <h2 class="text-xs-center">Your Settings</h2>
 
           <form>
             <fieldset>
@@ -34,3 +34,9 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+.settings{
+  margin-top: 60px;
+}
+</style>

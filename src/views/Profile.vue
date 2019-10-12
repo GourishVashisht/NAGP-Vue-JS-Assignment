@@ -1,5 +1,5 @@
 <template>
-  <div class="profile-page">
+  <div class="profile profile-page">
     <div class="user-info">
       <div class="container">
         <div class="row">
@@ -79,3 +79,9 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+.profile{ 
+  margin-top: 40px;
+}
+</style>

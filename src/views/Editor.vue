@@ -1,5 +1,5 @@
 <template>
-  <div class="editor-page">
+  <div class="editor editor-page">
     <div class="container page">
       <div class="row">
         <div class="col-md-10 offset-md-1 col-xs-12">
@@ -13,6 +13,7 @@
                   v-model="title"
                 />
               </fieldset>
+              <span v-if="showErrors">Title can't be blank, Min. 1 character required</span>
               <fieldset class="form-group">
                 <input
                   type="text"
@@ -21,6 +22,7 @@
                   v-model="description"
                 />
               </fieldset>
+              <span v-if="showErrors">Description can't be blank, Min. 1 character required</span>
               <fieldset class="form-group">
                 <textarea
                   class="form-control"
@@ -29,12 +31,13 @@
                   v-model="body"
                 ></textarea>
               </fieldset>
+              <span v-if="showErrors">Body can't be blank, Min. 1 character required</span>
               <fieldset class="form-group">
                 <input type="text" class="form-control" placeholder="Enter tags" />
                 <div class="tag-list"></div>
               </fieldset>
               <button
-                class="btn btn-lg pull-xs-right btn-primary"
+                class="btn btn-lg pull-xs-right btn-success"
                 type="button"
                 @click="submitArticle()"
               >Publish Article</button>
@@ -56,31 +59,44 @@ export default class Editor extends Vue {
   private title: string = "";
   private description: string = "";
   private body: string = "";
+  private showErrors: boolean = false;
 
   public submitArticle(): void {
-    if (this.$route.params.slug) {
-      articles
-        .modifyArticle({
-          slug: this.$route.params.slug,
-          art: {
+    if (this.checkIfMandatoryFieldsPresent()) {
+      if (this.$route.params.slug) {
+        articles
+          .modifyArticle({
+            slug: this.$route.params.slug,
+            art: {
+              title: this.title,
+              description: this.description,
+              body: this.body
+            }
+          })
+          .then(() => {
+            this.$router.push("/articles/" + articles.article!.slug);
+          });
+      } else {
+        articles
+          .addArticle({
             title: this.title,
             description: this.description,
             body: this.body
-          }
-        })
-        .then(() => {
-          this.$router.push("/articles/" + articles.article!.slug);
-        });
+          })
+          .then(() => {
+            this.$router.push("/articles/" + articles.article!.slug);
+          });
+      }
     } else {
-      articles
-        .addArticle({
-          title: this.title,
-          description: this.description,
-          body: this.body
-        })
-        .then(() => {
-          this.$router.push("/articles/" + articles.article!.slug);
-        });
+      this.showErrors = true;
+    }
+  }
+
+  private checkIfMandatoryFieldsPresent() {
+    if (this.title && this.description && this.body) {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -95,3 +111,9 @@ export default class Editor extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.editor {
+  margin-top: 100px;
+}
+</style>
