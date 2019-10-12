@@ -12,7 +12,7 @@
         <div class="col-md-9">
           <div class="feed-toggle">
             <ul class="nav nav-pills outline-active">
-              <li class="nav-item">
+              <li v-if="username" class="nav-item">
                 <router-link class="nav-link" active-class="active" exact to="/my-feed">Your Feed</router-link>
               </li>
               <li class="nav-item">
@@ -29,7 +29,18 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import { UserResponse } from "@/models/UserResponse";
+import users from "@/store/modules/UserModule";
 
 @Component
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  private currentUser: UserResponse | null = null;
+
+  private get username() {
+    return users.username;
+  }
+  private async created() {
+    await users.fetchUser();
+  }
+}
 </script>

@@ -15,11 +15,12 @@ class UserModule extends VuexModule {
 
     public user: UserResponse | null = null;
 
+    get isAuthenticated() {
+        return !!JWTService.getJWTToken();
+    }
+
     get username() {
-        // const data = JSON.parse(String(localStorage.getItem("vuex")));
-        // console.log(data.users.user.username);
-        // return (data && data.users && data.users.user) ? data.users.user.username : null;
-        return (this.user) ? this.user.username : null;
+        return this.user ? this.user.username : null;
     }
 
     @MutationAction

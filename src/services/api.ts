@@ -8,3 +8,7 @@ export function setJWT(jwt: string) {
     api.defaults.headers.common.Authorization = `Token ${jwt}`;
 }
 
+export function removeJWT() {
+    delete api.defaults.headers.common.Authorization;
+}
+

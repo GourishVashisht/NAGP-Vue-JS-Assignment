@@ -1,10 +1,11 @@
-import { api, setJWT } from "./api";
+import { api, setJWT, removeJWT } from "./api";
 import { Article, ArticleResponse } from "@/models/Article";
 import JWTService from "./JWTService";
 
 export const ArticleService = {
 
     async getArticles(offset: number, limit: number): Promise<ArticleResponse> {
+        await removeJWT();
         const res = await api.get(`/articles?offset=${offset}&limit=${limit}`);
         return res.data;
     },

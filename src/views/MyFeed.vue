@@ -2,18 +2,18 @@
   <div>
     <div v-if="!articlesCount" class="article-preview">No articles are here... yet.</div>
     <div v-if="articlesCount">
-      <b-pagination
-        v-model="currentPage"
-        :total-rows="articlesCount"
-        :per-page="articlesPerPage"
-        limit="10"
-      ></b-pagination>
       <ArticlePreview
         id="article-preview"
         v-for="article in articles"
         :article="article"
         :key="article.slug"
       ></ArticlePreview>
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="articlesCount"
+        :per-page="articlesPerPage"
+        limit="10"
+      ></b-pagination>
     </div>
   </div>
 </template>
@@ -48,7 +48,9 @@ export default class MyFeed extends Vue {
 
   @Watch("currentPage")
   public onPageChanged(): void {
+    this.isLoading = true;
     this.getUpdatedArticles();
+    window.scrollTo(0, 0);
   }
 
   private async created() {
@@ -65,6 +67,7 @@ export default class MyFeed extends Vue {
       offset: (this.currentPage - 1) * this.articlesPerPage,
       limit: this.articlesPerPage
     });
+    this.isLoading = false;
     this.articlesCount = articles.articlesCount;
   }
 }
