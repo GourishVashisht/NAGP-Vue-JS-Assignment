@@ -69,7 +69,7 @@ export default class Editor extends Vue {
           }
         })
         .then(() => {
-          this.$router.push("/articles/" + articles.article.slug);
+          this.$router.push("/articles/" + articles.article!.slug);
         });
     } else {
       articles
@@ -79,7 +79,7 @@ export default class Editor extends Vue {
           body: this.body
         })
         .then(() => {
-          this.$router.push("/articles/" + articles.article.slug);
+          this.$router.push("/articles/" + articles.article!.slug);
         });
     }
   }
@@ -87,9 +87,9 @@ export default class Editor extends Vue {
   private created() {
     if (this.$route.params.slug) {
       articles.getArticle(this.$route.params.slug).then(() => {
-        this.title = articles.article.title;
-        this.description = articles.article.description;
-        this.body = articles.article.body;
+        this.title = articles.article!.title;
+        this.description = articles.article!.description;
+        this.body = articles.article!.body;
       });
     }
   }
