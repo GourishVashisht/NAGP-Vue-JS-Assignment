@@ -10,7 +10,12 @@ import * as icons from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import DateFilter from "@/common/date.filter";
 
-library.add(icons.faHeart, icons.faUserCircle, icons.faCopyright);
+library.add(
+  icons.faHeart,
+  icons.faUserCircle,
+  icons.faCopyright,
+  icons.faTrashAlt,
+  icons.faPencilAlt);
 
 Vue.component("fa-icon", FontAwesomeIcon);
 Vue.filter("date", DateFilter);
