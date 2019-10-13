@@ -29,7 +29,7 @@
                 v-model="password"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right" @click="loginUser()">Sign up</button>
+            <button class="btn btn-lg btn-primary pull-xs-right" @click="loginUser()">Sign in</button>
           </form>
         </div>
       </div>

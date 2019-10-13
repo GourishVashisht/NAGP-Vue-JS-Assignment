@@ -12,4 +12,11 @@ export const CommentService = {
         const response = await api.delete(`articles/${slug}/comments/${commentId}`);
         return response.data;
     },
+
+    async editComment(slug: string, commentId: number, comment: Comment): Promise<any> {
+        const response = await api.put(`articles/${slug}/comments/${commentId}`, {
+            comment
+        });
+        return response.data;
+    },
 };

@@ -125,7 +125,6 @@ export default class MyArticle extends Vue {
 
   private async refreshComments(event: any): void {
     if (event) {
-      await comments.getComments(this.$route.params.slug);
       this.comments = comments.comments;
     }
   }
