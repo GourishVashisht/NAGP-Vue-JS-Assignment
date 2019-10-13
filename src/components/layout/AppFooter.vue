@@ -1,7 +1,7 @@
 <template>
   <div>
-    <b-navbar class="footer-text" toggleable="sm" type="dark" variant="light" fixed="bottom">
-      <b-collapse id="nav-collapse" is-nav>
+    <b-navbar toggleable="sm" type="dark" variant="light" fixed="bottom">
+      <b-collapse class="footer-text" id="nav-collapse" is-nav>
         <router-link class="logo-font" to="/">conduit</router-link>
         <span class="attribution">
           &nbsp;NAGP Assignment 2019
@@ -32,7 +32,7 @@ export default class AppFooter extends Vue {}
 .footer-text {
   margin-left: 40px;
 }
-.footer-text {
+.footer-name {
   margin-right: 40px;
 }
 </style>
