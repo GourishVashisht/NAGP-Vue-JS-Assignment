@@ -57,7 +57,7 @@ export default class Login extends Vue {
         this.$router.push("/");
       })
       .catch((err) => {
-        // console.log(err);
+        // console.warn(err);
       });
   }
 }

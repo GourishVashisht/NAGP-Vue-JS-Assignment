@@ -43,7 +43,7 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import users from "@/store/modules/UserModule";
-import JWTService from "../../services/JWTService";
+import JWTService from "@/services/JWTService";
 
 @Component
 export default class AppNavbar extends Vue {
