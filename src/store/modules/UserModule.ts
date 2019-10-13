@@ -13,11 +13,8 @@ import JWTService from "@/services/JWTService";
 })
 class UserModule extends VuexModule {
 
+    public isAuthenticated: boolean = false;
     public user: UserResponse | null = null;
-
-    get isAuthenticated() {
-        return !!JWTService.getJWTToken();
-    }
 
     get username() {
         return this.user ? this.user.username : null;
@@ -27,27 +24,28 @@ class UserModule extends VuexModule {
     public async loginUser(user1: User) {
         const user: UserResponse = await UserService.loginUser(user1);
         JWTService.saveJWTToken(user.token);
-        return { user };
+        return { user, isAuthenticated: !!JWTService.getJWTToken() };
     }
 
     @MutationAction
     public async fetchUser() {
         const user: UserResponse = await UserService.fetchUser();
         JWTService.saveJWTToken(user.token);
-        return { user };
+        return { user, isAuthenticated: !!JWTService.getJWTToken() };
     }
 
     @MutationAction
     public async registerUser(user1: User) {
         const user: UserResponse = await UserService.registerUser(user1);
         JWTService.saveJWTToken(user.token);
-        return { user };
+        return { user, isAuthenticated: !!JWTService.getJWTToken() };
     }
 
     @Mutation
     public async logoutUser() {
         JWTService.destroyJWTToken();
         this.user = null;
+        this.isAuthenticated = false;
     }
 }
 

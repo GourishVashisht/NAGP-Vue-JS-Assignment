@@ -43,9 +43,11 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import users from "@/store/modules/UserModule";
+import JWTService from "../../services/JWTService";
 
 @Component
 export default class AppNavbar extends Vue {
+  private activeNavbarItem: string = "";
 
   get isAuthenticated(): boolean {
     return users.isAuthenticated;
@@ -54,21 +56,18 @@ export default class AppNavbar extends Vue {
   get username(): string | null {
     return users.username;
   }
-  private activeNavbarItem: string = "";
 
-  // private mounted() {
-  //   this.selectActiveNavText();
-  // }
-
-  public signoutUser(): void {
-    users.logoutUser();
+  private async signoutUser() {
+    await users.logoutUser();
     if (this.$route.path !== "/") {
       this.$router.push("/");
     }
   }
 
   private async created() {
-    await users.fetchUser();
+    if (JWTService.getJWTToken()) {
+      await users.fetchUser();
+    }
   }
 
   private selectActiveNavText() {
