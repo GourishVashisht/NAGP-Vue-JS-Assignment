@@ -39,8 +39,6 @@ export default class Home extends Vue {
   private get username() {
     return users.username;
   }
-  private async created() {
-    await users.fetchUser();
-  }
+
 }
 </script>

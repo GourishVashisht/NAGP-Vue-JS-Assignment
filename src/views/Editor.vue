@@ -3,6 +3,9 @@
     <div class="container page">
       <div class="row">
         <div class="col-md-10 offset-md-1 col-xs-12">
+          <!-- <h2 class="text-xs-center">
+            <span>{{pageHeader}}</span>&nbsp;Article
+          </h2> -->
           <form>
             <fieldset>
               <fieldset class="form-group">
@@ -60,6 +63,7 @@ export default class Editor extends Vue {
   private description: string = "";
   private body: string = "";
   private showErrors: boolean = false;
+  private pageHeader: string = "";
 
   public submitArticle(): void {
     if (this.checkIfMandatoryFieldsPresent()) {
@@ -92,21 +96,24 @@ export default class Editor extends Vue {
     }
   }
 
+  private async created() {
+    if (this.$route.params.slug) {
+      await articles.getArticle(this.$route.params.slug).then(() => {
+        this.title = articles.article!.title;
+        this.description = articles.article!.description;
+        this.body = articles.article!.body;
+      });
+      this.pageHeader = "Edit";
+    } else {
+      this.pageHeader = "Add New";
+    }
+  }
+
   private checkIfMandatoryFieldsPresent() {
     if (this.title && this.description && this.body) {
       return true;
     } else {
       return false;
-    }
-  }
-
-  private created() {
-    if (this.$route.params.slug) {
-      articles.getArticle(this.$route.params.slug).then(() => {
-        this.title = articles.article!.title;
-        this.description = articles.article!.description;
-        this.body = articles.article!.body;
-      });
     }
   }
 }

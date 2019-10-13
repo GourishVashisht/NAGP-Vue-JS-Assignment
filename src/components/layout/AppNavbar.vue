@@ -46,6 +46,7 @@ import users from "@/store/modules/UserModule";
 
 @Component
 export default class AppNavbar extends Vue {
+
   get isAuthenticated(): boolean {
     return users.isAuthenticated;
   }
@@ -53,11 +54,36 @@ export default class AppNavbar extends Vue {
   get username(): string | null {
     return users.username;
   }
+  private activeNavbarItem: string = "";
+
+  // private mounted() {
+  //   this.selectActiveNavText();
+  // }
 
   public signoutUser(): void {
     users.logoutUser();
     if (this.$route.path !== "/") {
       this.$router.push("/");
+    }
+  }
+
+  private async created() {
+    await users.fetchUser();
+  }
+
+  private selectActiveNavText() {
+    if (this.$route.name === "home") {
+      this.activeNavbarItem = "home";
+    } else if (this.$route.name === "login") {
+      this.activeNavbarItem = "login";
+    } else if (this.$route.name === "register") {
+      this.activeNavbarItem = "register";
+    } else if (this.$route.name === "editor") {
+      this.activeNavbarItem = "editor";
+    } else if (this.$route.name === "settings") {
+      this.activeNavbarItem = "settings";
+    } else if (this.$route.name === "profile") {
+      this.activeNavbarItem = "profile";
     }
   }
 }
@@ -67,5 +93,8 @@ export default class AppNavbar extends Vue {
 .app-brand-name {
   margin-left: 30px !important;
   text-transform: lowercase !important;
+}
+.navTextActive {
+  text-decoration-line: underline;
 }
 </style>

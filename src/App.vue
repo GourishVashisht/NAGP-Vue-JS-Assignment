@@ -17,11 +17,7 @@ import users from "@/store/modules/UserModule";
 @Component({
   components: { AppFooter, AppNavbar }
 })
-export default class App extends Vue {
-  // private created() {
-  //   users.fetchUser();
-  // }
-}
+export default class App extends Vue {}
 </script>
 
 <style>

@@ -20,6 +20,8 @@ export const ArticleService = {
         return res.data.article;
     },
     async addArticle(article: Article): Promise<Article> {
+        await setJWT(typeof (JWTService.getJWTToken()) === "string"
+            ? String(JWTService.getJWTToken()) : "");
         const res = await api.post("/articles/", {
             article
         });
