@@ -51,9 +51,8 @@
           </div>
           <div class="row">
             <div class="col-xs-12 col-md-8 offset-md-2">
-              <!-- <CommentEditor v-if="isAuthenticated" :slug="article.slug" :image="user.image"></CommentEditor> -->
-              <!-- <p v-else class="display-flex"> -->
-              <p class="display-flex">
+              <CommentEditor v-if="isAuthenticated" :slug="article.slug" :image="user.image"></CommentEditor>
+              <p v-else class="display-flex">
                 <router-link to="/login" class="router-link-text">Sign in</router-link>&nbsp;or
                 <router-link to="/register" class="router-link-text">&nbsp;Sign up</router-link>&nbsp;to add comments on this article.
               </p>
@@ -63,7 +62,6 @@
                 :comment="comment"
                 :slug="article.slug"
                 :user="user"
-                v-on:reset-comment-list="refreshComments($event)"
               ></CommentCard>
             </div>
           </div>
@@ -96,19 +94,21 @@ import comments from "@/store/modules/CommentModule";
 export default class MyArticle extends Vue {
   private article: Article | null;
   private user: UserResponse | null;
-  private comments: Comment[];
   private isCurrentUser: boolean;
 
   constructor() {
     super();
     this.article = null;
     this.user = null;
-    this.comments = [];
     this.isCurrentUser = false;
   }
 
   get isAuthenticated() {
     return users.isAuthenticated;
+  }
+
+  get comments() {
+    return comments.comments;
   }
 
   private async created() {
@@ -119,14 +119,7 @@ export default class MyArticle extends Vue {
     await articles.getArticle(this.$route.params.slug);
     await comments.getComments(this.$route.params.slug);
     this.article = articles.article;
-    this.comments = comments.comments;
     this.checkIfCurrentUser();
-  }
-
-  private async refreshComments(event: any): void {
-    if (event) {
-      this.comments = comments.comments;
-    }
   }
 
   private checkIfCurrentUser(): void {

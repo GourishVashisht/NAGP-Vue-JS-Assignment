@@ -32,9 +32,15 @@ class CommentModule extends VuexModule {
     }
 
     @Action
-    public async editComment({ slug, commentId, comment }:
-        { slug: string, commentId: number, comment: Comment | any }) {
-        await CommentService.editComment(slug, commentId, comment);
+    public async editComment({ slug, commentId, commentBody }:
+        { slug: string, commentId: number, commentBody: Comment | any }) {
+        await CommentService.editComment(slug, commentId, commentBody);
+        await this.context.dispatch("getComments", slug);
+    }
+
+    @Action
+    public async addComment({ slug, commentBody }: { slug: string, commentBody: string }) {
+        await CommentService.addComment(slug, commentBody);
         await this.context.dispatch("getComments", slug);
     }
 
