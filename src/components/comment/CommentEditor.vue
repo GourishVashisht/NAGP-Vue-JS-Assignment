@@ -27,7 +27,7 @@ export default class CommentEditor extends Vue {
 
   private async postComment() {
     await comments.addComment({
-      slug: this.slug,
+      slug: this.slug ? this.slug : "",
       commentBody: this.commentBody
     });
     this.commentBody = "";

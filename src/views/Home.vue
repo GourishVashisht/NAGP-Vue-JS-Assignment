@@ -29,12 +29,10 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import { UserResponse } from "@/models/UserResponse";
 import users from "@/store/modules/UserModule";
 
 @Component
 export default class Home extends Vue {
-  private currentUser: UserResponse | null = null;
 
   private get username() {
     return users.username;

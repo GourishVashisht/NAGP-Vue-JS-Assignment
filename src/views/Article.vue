@@ -123,7 +123,7 @@ export default class MyArticle extends Vue {
   }
 
   private checkIfCurrentUser(): void {
-    if (this.user && this.article.author) {
+    if (this.user && this.article) {
       this.isCurrentUser =
         this.user!.username && this.article!.author.username
           ? this.user!.username === this.article!.author.username
