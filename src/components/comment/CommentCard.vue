@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-block">
       <p v-if="!isEditMode" class="card-text">{{ comment.body }}</p>
-      <textarea class="edit-text-area" v-else v-model="comment.body" />
+      <textarea class="edit-text-area" v-else v-model="commentBody" />
     </div>
     <div class="card-footer">
       <span style="float: left">
@@ -16,7 +16,7 @@
         <span class="date-posted">{{ comment.createdAt | date }}</span>
       </span>
       <span v-if="isCurrentUser && !isEditMode" class="mod-actions" style="float: right">
-        <fa-icon class="pencil-icon user-action-button" icon="pencil-alt" @click="editComment()"></fa-icon>
+        <!-- <fa-icon class="pencil-icon user-action-button" icon="pencil-alt" @click="editComment()"></fa-icon> -->
         <fa-icon class="user-action-button" icon="trash-alt" @click="deleteComment()"></fa-icon>
       </span>
       <span v-if="isEditMode" class="mod-actions" style="float: right">
@@ -45,6 +45,10 @@ export default class CommentCard extends Vue {
   @Prop() private user?: User;
   @Prop() private comment?: Comment;
   @Prop() private slug?: string;
+
+  private created() {
+    this.commentBody = this.comment!.body;
+  }
 
   get isCurrentUser() {
     if (this.user && this.comment!.author.username) {
@@ -76,7 +80,7 @@ export default class CommentCard extends Vue {
     await comments.editComment({
       slug: this.slug ? this.slug : "",
       commentId: this.comment!.id,
-      commentBody: this.editedComment!.body
+      commentBody: this.commentBody
     });
     this.isEditMode = false;
   }
