@@ -1,5 +1,5 @@
 import {
-    VuexModule, Module, getModule, MutationAction
+    VuexModule, Module, getModule, MutationAction, Mutation, Action
 } from "vuex-module-decorators";
 import store from "@/store";
 import { ArticleService } from "@/services/ArticleService";
@@ -16,6 +16,18 @@ class ArticleModule extends VuexModule {
     public feed: Article[] = [];
     public article: Article | null = null;
     public articlesCount: number = 0;
+
+    @Mutation
+    public updateArticleInArticleList(article: Article) {
+        this.articles = this.articles.map((data) => {
+            if (data.slug !== article.slug) {
+                return data;
+            }
+            data.favorited = article.favorited;
+            data.favoritesCount = article.favoritesCount;
+            return data;
+        });
+    }
 
     @MutationAction
     public async getArticles({ offset, limit, tag }: { offset: number, limit: number, tag: string }) {
@@ -58,6 +70,20 @@ class ArticleModule extends VuexModule {
         const article = await ArticleService.modifyArticle(slug, art);
         return { article };
     }
+
+    @Action
+    public async addFavoriteArticle(slug: string) {
+        const response = await ArticleService.addFavoriteArticle(slug);
+        await this.context.commit("updateArticleInArticleList", response.article);
+    }
+
+    @Action
+    public async removeFavoriteArticle(slug: string) {
+        const response = await ArticleService.removeFavoriteArticle(slug);
+        await this.context.commit("updateArticleInArticleList", response.article);
+    }
+
+
 }
 
 export default getModule(ArticleModule);

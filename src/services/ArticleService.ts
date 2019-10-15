@@ -15,7 +15,7 @@ export const ArticleService = {
     async getFeed(offset: number, limit: number, tag: string): Promise<ArticleResponse> {
         await setJWT(typeof (JWTService.getJWTToken()) === "string"
             ? String(JWTService.getJWTToken()) : "");
-        const FEED_URL = `/articles/feed/?offset=${offset}&limit=${limit}`;
+        const FEED_URL = `/articles/feed?offset=${offset}&limit=${limit}`;
         const TAG_URL = tag ? `&tag=${tag}` : "";
         const res = await api.get(`${FEED_URL}${TAG_URL}`);
         return res.data;
@@ -49,5 +49,19 @@ export const ArticleService = {
             article
         });
         return res.data.article;
+    },
+
+    async addFavoriteArticle(slug: string) {
+        await setJWT(typeof (JWTService.getJWTToken()) === "string"
+            ? String(JWTService.getJWTToken()) : "");
+        const res = await api.post(`/articles/${slug}/favorite`);
+        return res.data;
+    },
+
+    async removeFavoriteArticle(slug: string) {
+        await setJWT(typeof (JWTService.getJWTToken()) === "string"
+            ? String(JWTService.getJWTToken()) : "");
+        const res = await api.delete(`/articles/${slug}/favorite`);
+        return res.data;
     }
 };

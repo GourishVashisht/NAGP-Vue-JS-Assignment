@@ -12,8 +12,11 @@
         >{{ article.author.username }}</router-link>
         <span class="date">{{ article.createdAt | date }}</span>
       </div>
-
-      <button class="btn btn-outline-primary btn-sm pull-xs-right">
+      <button
+        v-bind:class="{ favorite: article.favorited }"
+        class="btn btn-outline-primary btn-sm pull-xs-right"
+        @click="updateFavoriteArticle()"
+      >
         <i class="ion-heart"></i>
         {{ article.favoritesCount }}
       </button>
@@ -23,9 +26,11 @@
       <p>{{ article.description }}</p>
       <span>Read more...</span>
       <ul class="tag-list">
-        <li v-for="(tag, index) in article.tagList" :key="index">
-          <router-link class="tag-default tag-pill tag-outline" to="/">{{tag}}</router-link>
-        </li>
+        <li
+          class="tag-default tag-pill tag-outline"
+          v-for="(tag, index) in article.tagList"
+          :key="index"
+        >{{tag}}</li>
       </ul>
     </router-link>
   </div>
@@ -35,6 +40,7 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { Article } from "@/models/Article";
 import TagList from "@/components/common/TagList.vue";
+import articles from "@/store/modules/ArticleModule";
 
 @Component({
   components: {
@@ -43,5 +49,21 @@ import TagList from "@/components/common/TagList.vue";
 })
 export default class ArticlePreview extends Vue {
   @Prop() public article?: Article;
+
+  private updateFavoriteArticle() {
+    if (this.article.favorited) {
+      articles.removeFavoriteArticle(this.article!.slug);
+    } else {
+      articles.addFavoriteArticle(this.article!.slug);
+    }
+  }
 }
 </script>
+
+<style scoped>
+.favorite {
+  color: #fff !important;
+  background-color: #5cb85c !important;
+  border-color: #5cb85c !important;
+}
+</style>
