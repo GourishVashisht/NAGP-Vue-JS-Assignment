@@ -16,7 +16,8 @@ library.add(
   icons.faCopyright,
   icons.faTrashAlt,
   icons.faPencilAlt,
-  icons.faTimesCircle);
+  icons.faTimesCircle,
+  icons.faFilter);
 
 Vue.component("fa-icon", FontAwesomeIcon);
 Vue.filter("date", DateFilter);
