@@ -4,16 +4,20 @@ import JWTService from "./JWTService";
 
 export const ArticleService = {
 
-    async getArticles(offset: number, limit: number): Promise<ArticleResponse> {
+    async getArticles(offset: number, limit: number, tag: string): Promise<ArticleResponse> {
         await removeJWT();
-        const res = await api.get(`/articles?offset=${offset}&limit=${limit}`);
+        const ARTICLE_URL = `/articles?offset=${offset}&limit=${limit}`;
+        const TAG_URL = tag ? `&tag=${tag}` : "";
+        const res = await api.get(`${ARTICLE_URL}${TAG_URL}`);
         return res.data;
     },
 
-    async getFeed(offset: number, limit: number): Promise<ArticleResponse> {
+    async getFeed(offset: number, limit: number, tag: string): Promise<ArticleResponse> {
         await setJWT(typeof (JWTService.getJWTToken()) === "string"
             ? String(JWTService.getJWTToken()) : "");
-        const res = await api.get(`/articles/feed?offset=${offset}&limit=${limit}`);
+        const FEED_URL = `/articles/feed/?offset=${offset}&limit=${limit}`;
+        const TAG_URL = tag ? `&tag=${tag}` : "";
+        const res = await api.get(`${FEED_URL}${TAG_URL}`);
         return res.data;
     },
 

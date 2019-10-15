@@ -14,14 +14,16 @@
         :per-page="articlesPerPage"
         limit="10"
       ></b-pagination>
+      <span style="display: none">{{tagName}}</span>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from "vue-property-decorator";
+import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import ArticlePreview from "@/components/article/ArticlePreview.vue";
 import articles from "@/store/modules/ArticleModule";
+import tags from "@/store/modules/TagModule";
 
 @Component({
   components: {
@@ -29,21 +31,24 @@ import articles from "@/store/modules/ArticleModule";
   }
 })
 export default class GlobalFeed extends Vue {
-  private isLoading: boolean;
-  private currentPage: number;
-  private articlesPerPage: number;
-  private articlesCount: number;
-
-  constructor() {
-    super();
-    this.isLoading = true;
-    this.currentPage = 1;
-    this.articlesPerPage = 10;
-    this.articlesCount = 0;
-  }
+  private isLoading: boolean = true;
+  private currentPage: number = 1;
+  private articlesPerPage: number = 10;
+  private articlesCount: number = 0;
+  private selectedTag: string = "";
+  private tag: string = "";
 
   get articles() {
     return articles.articles;
+  }
+
+  get tagName() {
+    if (tags.selectedTag) {
+      this.tag = tags.selectedTag;
+      this.getUpdatedArticles();
+    }
+    // tags.setSelectedTag("");
+    return tags.selectedTag;
   }
 
   @Watch("currentPage")
@@ -56,7 +61,8 @@ export default class GlobalFeed extends Vue {
   private async created() {
     await articles.getArticles({
       offset: (this.currentPage - 1) * this.articlesPerPage,
-      limit: this.articlesPerPage
+      limit: this.articlesPerPage,
+      tag: this.tag
     });
     this.isLoading = false;
     this.articlesCount = articles.articlesCount;
@@ -65,7 +71,8 @@ export default class GlobalFeed extends Vue {
   private async getUpdatedArticles() {
     await articles.getArticles({
       offset: (this.currentPage - 1) * this.articlesPerPage,
-      limit: this.articlesPerPage
+      limit: this.articlesPerPage,
+      tag: this.tag
     });
     this.isLoading = false;
     this.articlesCount = articles.articlesCount;

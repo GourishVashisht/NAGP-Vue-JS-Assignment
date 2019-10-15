@@ -18,8 +18,8 @@ class ArticleModule extends VuexModule {
     public articlesCount: number = 0;
 
     @MutationAction
-    public async getArticles({ offset, limit }: { offset: number, limit: number }) {
-        const articleResponse: ArticleResponse = await ArticleService.getArticles(offset, limit);
+    public async getArticles({ offset, limit, tag }: { offset: number, limit: number, tag: string }) {
+        const articleResponse: ArticleResponse = await ArticleService.getArticles(offset, limit, tag);
         return {
             articles: articleResponse.articles,
             articlesCount: articleResponse.articlesCount
@@ -27,8 +27,8 @@ class ArticleModule extends VuexModule {
     }
 
     @MutationAction
-    public async getFeed({ offset, limit }: { offset: number, limit: number }) {
-        const articleResponse: ArticleResponse = await ArticleService.getFeed(offset, limit);
+    public async getFeed({ offset, limit, tag }: { offset: number, limit: number, tag: string }) {
+        const articleResponse: ArticleResponse = await ArticleService.getFeed(offset, limit, tag);
         return {
             feed: articleResponse.articles,
             articlesCount: articleResponse.articlesCount

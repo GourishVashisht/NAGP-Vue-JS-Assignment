@@ -19,9 +19,10 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from "vue-property-decorator";
+import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import ArticlePreview from "@/components/article/ArticlePreview.vue";
 import articles from "@/store/modules/ArticleModule";
+import tags from "@/store/modules/TagModule";
 
 @Component({
   components: {
@@ -46,26 +47,32 @@ export default class MyFeed extends Vue {
     return articles.feed;
   }
 
+  get tagName() {
+    return tags.selectedTag;
+  }
+
   @Watch("currentPage")
   public onPageChanged(): void {
     this.isLoading = true;
-    this.getUpdatedArticles();
+    this.getUpdatedFeed();
     window.scrollTo(0, 0);
   }
 
   private async created() {
     await articles.getFeed({
       offset: (this.currentPage - 1) * this.articlesPerPage,
-      limit: this.articlesPerPage
+      limit: this.articlesPerPage,
+      tag: this.tagName
     });
     this.isLoading = false;
     this.articlesCount = articles.articlesCount;
   }
 
-  private async getUpdatedArticles() {
-    await articles.getArticles({
+  private async getUpdatedFeed() {
+    await articles.getFeed({
       offset: (this.currentPage - 1) * this.articlesPerPage,
-      limit: this.articlesPerPage
+      limit: this.articlesPerPage,
+      tag: this.tagName
     });
     this.isLoading = false;
     this.articlesCount = articles.articlesCount;
