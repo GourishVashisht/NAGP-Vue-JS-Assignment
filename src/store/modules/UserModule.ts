@@ -41,6 +41,13 @@ class UserModule extends VuexModule {
         return { user, isAuthenticated: !!JWTService.getJWTToken() };
     }
 
+    @MutationAction
+    public async modifyUser(user1: UserResponse | null) {
+        const user: UserResponse = await UserService.modifyUser(user1);
+        JWTService.saveJWTToken(user.token);
+        return { user, isAuthenticated: !!JWTService.getJWTToken() };
+    }
+
     @Mutation
     public async logoutUser() {
         JWTService.destroyJWTToken();

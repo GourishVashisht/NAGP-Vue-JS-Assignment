@@ -1,22 +1,24 @@
 import { api, setJWT, removeJWT } from "./api";
-import { Article, ArticleResponse } from "@/models/Article";
+import { Article, ArticleResponse, ArticleSearchParams } from "@/models/Article";
 import JWTService from "./JWTService";
 
 export const ArticleService = {
 
-    async getArticles(offset: number, limit: number, tag: string): Promise<ArticleResponse> {
+    async getArticles(articleSearchParams: ArticleSearchParams): Promise<ArticleResponse> {
         await removeJWT();
-        const ARTICLE_URL = `/articles?offset=${offset}&limit=${limit}`;
-        const TAG_URL = tag ? `&tag=${tag}` : "";
-        const res = await api.get(`${ARTICLE_URL}${TAG_URL}`);
+        const ARTICLE_URL = `/articles?offset=${articleSearchParams.offset}&limit=${articleSearchParams.limit}`;
+        const TAG_URL = articleSearchParams.tag ? `&tag=${articleSearchParams.tag}` : "";
+        const AUTHOR_URL = articleSearchParams.author ? `&author=${articleSearchParams.author}` : "";
+        const FAVORITED_URL = articleSearchParams.favorited ? `&favorited=${articleSearchParams.favorited}` : "";
+        const res = await api.get(`${ARTICLE_URL}${TAG_URL}${AUTHOR_URL}${FAVORITED_URL}`);
         return res.data;
     },
 
-    async getFeed(offset: number, limit: number, tag: string): Promise<ArticleResponse> {
+    async getFeed(articleSearchParams: ArticleSearchParams): Promise<ArticleResponse> {
         await setJWT(typeof (JWTService.getJWTToken()) === "string"
             ? String(JWTService.getJWTToken()) : "");
-        const FEED_URL = `/articles/feed?offset=${offset}&limit=${limit}`;
-        const TAG_URL = tag ? `&tag=${tag}` : "";
+        const FEED_URL = `/articles/feed?offset=${articleSearchParams.offset}&limit=${articleSearchParams.limit}`;
+        const TAG_URL = articleSearchParams.tag ? `&tag=${articleSearchParams.tag}` : "";
         const res = await api.get(`${FEED_URL}${TAG_URL}`);
         return res.data;
     },
@@ -63,5 +65,14 @@ export const ArticleService = {
             ? String(JWTService.getJWTToken()) : "");
         const res = await api.delete(`/articles/${slug}/favorite`);
         return res.data;
-    }
+    },
+
+    async getFavoriteArticles(articleSearchParams: ArticleSearchParams): Promise<ArticleResponse> {
+        await setJWT(typeof (JWTService.getJWTToken()) === "string"
+            ? String(JWTService.getJWTToken()) : "");
+        const ARTICLE_URL = `/articles?offset=${articleSearchParams.offset}&limit=${articleSearchParams.limit}`;
+        const FAVORITED_URL = articleSearchParams.favorited ? `&favorited=${articleSearchParams.favorited}` : "";
+        const res = await api.get(`${ARTICLE_URL}${FAVORITED_URL}`);
+        return res.data;
+    },
 };

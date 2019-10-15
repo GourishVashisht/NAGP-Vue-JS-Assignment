@@ -44,14 +44,25 @@ export default new Router({
       component: () => import("@/views/Register.vue")
     },
     {
-      name: "profile",
-      path: "/@:username",
-      component: () => import("@/views/Profile.vue")
-    },
-    {
       name: "settings",
       path: "/settings",
       component: () => import("@/views/Settings.vue")
-    }
+    },
+    {
+      path: "/@:username",
+      component: () => import("@/views/Profile.vue"),
+      children: [
+        {
+          name: "profile-articles",
+          path: "",
+          component: () => import("@/views/ProfileArticles.vue")
+        },
+        {
+          name: "profile-favorite-articles",
+          path: "favorites",
+          component: () => import("@/views/ProfileFavoriteArticles.vue")
+        }
+      ]
+    },
   ],
 });

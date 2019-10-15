@@ -17,3 +17,11 @@ export interface ArticleResponse {
     articles: Article[];
     articlesCount: number;
 }
+
+export interface ArticleSearchParams {
+    offset: number;
+    limit: number;
+    tag?: string;
+    author?: string;
+    favorited?: string;
+}

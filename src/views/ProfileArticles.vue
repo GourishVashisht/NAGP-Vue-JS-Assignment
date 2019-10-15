@@ -12,48 +12,36 @@
         v-model="currentPage"
         :total-rows="articlesCount"
         :per-page="articlesPerPage"
-        limit="10"
+        limit="5"
       ></b-pagination>
-      <span style="display: none">{{tagName}}</span>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, Watch } from "vue-property-decorator";
 import ArticlePreview from "@/components/article/ArticlePreview.vue";
 import articles from "@/store/modules/ArticleModule";
-import tags from "@/store/modules/TagModule";
 
 @Component({
   components: {
     ArticlePreview
   }
 })
-export default class GlobalFeed extends Vue {
+export default class ProfileArticles extends Vue {
   private isLoading: boolean = true;
   private currentPage: number = 1;
-  private articlesPerPage: number = 10;
+  private articlesPerPage: number = 5;
   private articlesCount: number = 0;
-  private selectedTag: string = "";
-  private tag: string = "";
 
   get articles() {
     return articles.articles;
   }
 
-  get tagName() {
-    if (tags.selectedTag) {
-      this.tag = tags.selectedTag;
-      this.getUpdatedArticles();
-    }
-    return tags.selectedTag;
-  }
-
   @Watch("currentPage")
   public onPageChanged(): void {
     this.isLoading = true;
-    this.getUpdatedArticles();
+    this.getUpdatedArticlesForProfile();
     window.scrollTo(0, 0);
   }
 
@@ -61,17 +49,17 @@ export default class GlobalFeed extends Vue {
     await articles.getArticles({
       offset: (this.currentPage - 1) * this.articlesPerPage,
       limit: this.articlesPerPage,
-      tag: this.tag
+      author: this.$route.params.username
     });
     this.isLoading = false;
     this.articlesCount = articles.articlesCount;
   }
 
-  private async getUpdatedArticles() {
+  private async getUpdatedArticlesForProfile() {
     await articles.getArticles({
       offset: (this.currentPage - 1) * this.articlesPerPage,
       limit: this.articlesPerPage,
-      tag: this.tag
+      author: this.$route.params.username
     });
     this.isLoading = false;
     this.articlesCount = articles.articlesCount;

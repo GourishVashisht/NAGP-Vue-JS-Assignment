@@ -9,14 +9,8 @@ const vuexLocalStorage = new VuexPersistence({
 });
 
 export default new Vuex.Store({
-  state: {
-
-  },
-  mutations: {
-
-  },
-  actions: {
-
-  }
+  state: {},
+  mutations: {},
+  actions: {}
   // plugins: [vuexLocalStorage.plugin]
 });

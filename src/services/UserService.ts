@@ -18,6 +18,15 @@ export const UserService = {
         return response.data.user;
     },
 
+    async modifyUser(user: UserResponse | null): Promise<UserResponse> {
+        await setJWT(typeof (JWTService.getJWTToken()) === "string"
+            ? String(JWTService.getJWTToken()) : "");
+        const response = await api.put("/user", {
+            user
+        });
+        return response.data.user;
+    },
+
     async fetchUser(): Promise<UserResponse> {
         await setJWT(typeof (JWTService.getJWTToken()) === "string"
             ? String(JWTService.getJWTToken()) : "");

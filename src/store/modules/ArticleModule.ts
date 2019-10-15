@@ -3,7 +3,7 @@ import {
 } from "vuex-module-decorators";
 import store from "@/store";
 import { ArticleService } from "@/services/ArticleService";
-import { Article, ArticleResponse } from "@/models/Article";
+import { Article, ArticleResponse, ArticleSearchParams } from "@/models/Article";
 
 @Module({
     dynamic: true,
@@ -30,8 +30,8 @@ class ArticleModule extends VuexModule {
     }
 
     @MutationAction
-    public async getArticles({ offset, limit, tag }: { offset: number, limit: number, tag: string }) {
-        const articleResponse: ArticleResponse = await ArticleService.getArticles(offset, limit, tag);
+    public async getArticles(articleSearchParams: ArticleSearchParams) {
+        const articleResponse: ArticleResponse = await ArticleService.getArticles(articleSearchParams);
         return {
             articles: articleResponse.articles,
             articlesCount: articleResponse.articlesCount
@@ -39,8 +39,8 @@ class ArticleModule extends VuexModule {
     }
 
     @MutationAction
-    public async getFeed({ offset, limit, tag }: { offset: number, limit: number, tag: string }) {
-        const articleResponse: ArticleResponse = await ArticleService.getFeed(offset, limit, tag);
+    public async getFeed(articleSearchParams: ArticleSearchParams) {
+        const articleResponse: ArticleResponse = await ArticleService.getFeed(articleSearchParams);
         return {
             feed: articleResponse.articles,
             articlesCount: articleResponse.articlesCount
@@ -83,7 +83,14 @@ class ArticleModule extends VuexModule {
         await this.context.commit("updateArticleInArticleList", response.article);
     }
 
-
+    @MutationAction
+    public async getFavoriteArticles(articleSearchParams: ArticleSearchParams) {
+        const articleResponse: ArticleResponse = await ArticleService.getFavoriteArticles(articleSearchParams);
+        return {
+            articles: articleResponse.articles,
+            articlesCount: articleResponse.articlesCount
+        };
+    }
 }
 
 export default getModule(ArticleModule);

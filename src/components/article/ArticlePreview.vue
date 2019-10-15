@@ -51,7 +51,7 @@ export default class ArticlePreview extends Vue {
   @Prop() public article?: Article;
 
   private updateFavoriteArticle() {
-    if (this.article.favorited) {
+    if (this.article!.favorited) {
       articles.removeFavoriteArticle(this.article!.slug);
     } else {
       articles.addFavoriteArticle(this.article!.slug);
