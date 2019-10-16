@@ -21,31 +21,31 @@ class UserModule extends VuexModule {
     }
 
     @MutationAction
-    public async loginUser(user1: User) {
-        const user: UserResponse = await UserService.loginUser(user1);
-        JWTService.saveJWTToken(user.token);
-        return { user, isAuthenticated: !!JWTService.getJWTToken() };
+    public async loginUser(user: User) {
+        const userResponse: UserResponse = await UserService.loginUser(user);
+        JWTService.saveJWTToken(userResponse.token);
+        return { user: userResponse, isAuthenticated: !!JWTService.getJWTToken() };
     }
 
     @MutationAction
     public async fetchUser() {
-        const user: UserResponse = await UserService.fetchUser();
-        JWTService.saveJWTToken(user.token);
-        return { user, isAuthenticated: !!JWTService.getJWTToken() };
+        const userResponse: UserResponse = await UserService.fetchUser();
+        JWTService.saveJWTToken(userResponse.token);
+        return { user: userResponse, isAuthenticated: !!JWTService.getJWTToken() };
     }
 
     @MutationAction
-    public async registerUser(user1: User) {
-        const user: UserResponse = await UserService.registerUser(user1);
-        JWTService.saveJWTToken(user.token);
-        return { user, isAuthenticated: !!JWTService.getJWTToken() };
+    public async registerUser(user: User) {
+        const userResponse: UserResponse = await UserService.registerUser(user);
+        JWTService.saveJWTToken(userResponse.token);
+        return { user: userResponse, isAuthenticated: !!JWTService.getJWTToken() };
     }
 
     @MutationAction
-    public async modifyUser(user1: UserResponse | null) {
-        const user: UserResponse = await UserService.modifyUser(user1);
-        JWTService.saveJWTToken(user.token);
-        return { user, isAuthenticated: !!JWTService.getJWTToken() };
+    public async modifyUser(user: UserResponse | null) {
+        const userResponse: UserResponse = await UserService.modifyUser(user);
+        JWTService.saveJWTToken(userResponse.token);
+        return { user: userResponse, isAuthenticated: !!JWTService.getJWTToken() };
     }
 
     @Mutation

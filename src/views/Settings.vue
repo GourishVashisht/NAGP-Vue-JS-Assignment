@@ -74,7 +74,7 @@ export default class Settings extends Vue {
 
   private async updateUserSettings() {
     await users.modifyUser(this.user);
-    this.$router.push("/@" + this.user.username);
+    this.$router.push("/@" + this.user!.username);
   }
 
   private async signoutUser() {

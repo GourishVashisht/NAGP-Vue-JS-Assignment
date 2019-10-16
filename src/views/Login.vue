@@ -12,7 +12,7 @@
             <li>That email is already taken</li>
           </ul>
 
-          <form>
+          <form v-on:submit.prevent="noop()">
             <fieldset class="form-group">
               <input
                 class="form-control form-control-lg"
@@ -46,19 +46,17 @@ export default class Login extends Vue {
   private email: string = "";
   private password: string = "";
 
-  private loginUser() {
+  private async loginUser() {
     const user = {
       email: this.email,
       password: this.password
     };
-    users
-      .loginUser(user)
-      .then((res) => {
-        this.$router.push("/");
-      })
-      .catch((err) => {
-        // console.warn(err);
-      });
+    await users.loginUser(user);
+    this.$router.push("/");
+  }
+
+  private noop() {
+    // no implementation required
   }
 }
 </script>
