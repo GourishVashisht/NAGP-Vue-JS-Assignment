@@ -128,25 +128,4 @@ export default class Register extends Vue {
 .register {
   margin-top: 60px;
 }
-
-.error-text {
-  font-weight: 500 !important;
-  font-style: italic;
-  height: 24px;
-  margin-top: 2px;
-  margin-bottom: 16px;
-  padding-left: 4px;
-}
-
-form-group {
-  margin-bottom: 0;
-}
-
-fieldset {
-  margin: 0;
-}
-
-fieldset:first-child {
-  margin-top: 24px;
-}
 </style>

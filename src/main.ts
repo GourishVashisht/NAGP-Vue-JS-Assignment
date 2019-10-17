@@ -1,14 +1,17 @@
-import "@babel/polyfill";
-import "mutationobserver-shim";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import DateFilter from "@/common/date.filter";
+import * as icons from "@fortawesome/free-solid-svg-icons";
 import Vue from "vue";
-import "./plugins/bootstrap-vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import * as icons from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import DateFilter from "@/common/date.filter";
+import "@babel/polyfill";
+import "mutationobserver-shim";
+import "./plugins/bootstrap-vue";
+
+// Global styling used many components
+import "@/assets/styles.css";
 
 library.add(
   icons.faHeart,
