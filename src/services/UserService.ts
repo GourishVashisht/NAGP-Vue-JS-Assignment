@@ -5,26 +5,38 @@ import JWTService from "./JWTService";
 export const UserService = {
 
     async loginUser(user: User): Promise<UserResponse> {
-        const response = await api.post("/users/login", {
-            user
-        });
-        return response.data.user;
+        try {
+            const response = await api.post("/users/login", {
+                user
+            });
+            return response.data.user;
+        } catch (error) {
+            throw error;
+        }
     },
 
     async registerUser(user: User): Promise<UserResponse> {
-        const response = await api.post("/users", {
-            user
-        });
-        return response.data.user;
+        try {
+            const response = await api.post("/users", {
+                user
+            });
+            return response.data.user;
+        } catch (error) {
+            throw error;
+        }
     },
 
     async modifyUser(user: UserResponse | null): Promise<UserResponse> {
-        await setJWT(typeof (JWTService.getJWTToken()) === "string"
-            ? String(JWTService.getJWTToken()) : "");
-        const response = await api.put("/user", {
-            user
-        });
-        return response.data.user;
+        try {
+            await setJWT(typeof (JWTService.getJWTToken()) === "string"
+                ? String(JWTService.getJWTToken()) : "");
+            const response = await api.put("/user", {
+                user
+            });
+            return response.data.user;
+        } catch (error) {
+            throw error;
+        }
     },
 
     async fetchUser(): Promise<UserResponse> {

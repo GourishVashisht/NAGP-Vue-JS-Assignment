@@ -8,10 +8,6 @@
             <router-link to="/login">Have an account?</router-link>
           </p>
 
-          <ul class="error-messages">
-            <li>That email is already taken</li>
-          </ul>
-
           <form>
             <fieldset class="form-group">
               <input
@@ -19,24 +15,37 @@
                 type="text"
                 placeholder="Username"
                 v-model="username"
+                minlength="1"
+                maxlength="20"
+                @keydown="removeErrorMessage(0)"
               />
             </fieldset>
+            <div class="error-text error-messages">{{errors.username}}</div>
+
             <fieldset class="form-group">
               <input
                 class="form-control form-control-lg"
                 type="text"
                 placeholder="Email"
                 v-model="email"
+                minlength="1"
+                @keydown="removeErrorMessage(1)"
               />
             </fieldset>
+            <div class="error-text error-messages">{{errors.email}}</div>
+
             <fieldset class="form-group">
               <input
                 class="form-control form-control-lg"
                 type="password"
                 placeholder="Password"
                 v-model="password"
+                minlength="1"
+                @keydown="removeErrorMessage(2)"
               />
             </fieldset>
+            <div class="error-text error-messages">{{errors.password}}</div>
+
             <button class="btn btn-lg btn-primary pull-xs-right" @click="registerUser()">Sign up</button>
           </form>
         </div>
@@ -49,14 +58,25 @@
 import { Vue, Component } from "vue-property-decorator";
 import users from "@/store/modules/UserModule";
 import { User } from "@/models/User";
+import { RegisterFormErrors } from "@/models/Errors";
 
 @Component
 export default class Register extends Vue {
   private username: string = "";
   private email: string = "";
   private password: string = "";
+  private errors: RegisterFormErrors = {
+    username: "",
+    email: "",
+    password: ""
+  };
 
-  private registerUser(): void {
+  private registerUser() {
+    this.errors = {
+      username: "",
+      email: "",
+      password: ""
+    };
     const user: User = {
       email: this.email,
       password: this.password,
@@ -64,18 +84,69 @@ export default class Register extends Vue {
     };
     users
       .registerUser(user)
-      .then((res) => {
+      .then(() => {
         this.$router.push("/");
       })
-      .catch((err) => {
-        // console.log(err);
+      .catch((error) => {
+        this.validateFormInputParameters(error.response.data.errors);
       });
+  }
+
+  private validateFormInputParameters(errors: any) {
+    if (errors.username) {
+      this.errors.username = "Username " + errors.username.join(" & ");
+    }
+    if (errors.email) {
+      this.errors.email = "Email " + errors.email.join(" & ");
+    }
+    if (errors.password) {
+      this.errors.password = "Password " + errors.password.join(" & ");
+    }
+  }
+
+  private removeErrorMessage(fieldNumber: number): void {
+    if (this.errors) {
+      switch (fieldNumber) {
+        case 0:
+          this.errors!.username = "";
+          break;
+        case 1:
+          this.errors!.email = "";
+          break;
+        case 2:
+          this.errors!.password = "";
+          break;
+        default:
+          break;
+      }
+    }
   }
 }
 </script>
 
 <style scoped>
-.register{
+.register {
   margin-top: 60px;
+}
+
+.error-text {
+  font-weight: 500 !important;
+  font-style: italic;
+  height: 24px;
+  margin-top: 2px;
+  margin-bottom: 16px;
+  padding-left: 4px;
+}
+
+form-group {
+  margin-bottom: 0;
+}
+
+fieldset {
+  margin: 0;
+}
+
+fieldset:first-child {
+  margin-top: 24px;
 }
 </style>

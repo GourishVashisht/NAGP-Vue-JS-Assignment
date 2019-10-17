@@ -20,30 +20,42 @@ class UserModule extends VuexModule {
         return this.user ? this.user.username : null;
     }
 
-    @MutationAction
+    @MutationAction({ mutate: ["user", "isAuthenticated"], rawError: true })
     public async loginUser(user: User) {
-        const userResponse: UserResponse = await UserService.loginUser(user);
-        JWTService.saveJWTToken(userResponse.token);
-        return { user: userResponse, isAuthenticated: !!JWTService.getJWTToken() };
+        try {
+            const userResponse: UserResponse = await UserService.loginUser(user);
+            JWTService.saveJWTToken(userResponse.token);
+            return { user: userResponse, isAuthenticated: !!JWTService.getJWTToken() };
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    @MutationAction({ mutate: ["user", "isAuthenticated"], rawError: true })
+    public async registerUser(user: User) {
+        try {
+            const userResponse: UserResponse = await UserService.registerUser(user);
+            JWTService.saveJWTToken(userResponse.token);
+            return { user: userResponse, isAuthenticated: !!JWTService.getJWTToken() };
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    @MutationAction({ mutate: ["user", "isAuthenticated"], rawError: true })
+    public async modifyUser(user: UserResponse | null) {
+        try {
+            const userResponse: UserResponse = await UserService.modifyUser(user);
+            JWTService.saveJWTToken(userResponse.token);
+            return { user: userResponse, isAuthenticated: !!JWTService.getJWTToken() };
+        } catch (error) {
+            throw error;
+        }
     }
 
     @MutationAction
     public async fetchUser() {
         const userResponse: UserResponse = await UserService.fetchUser();
-        JWTService.saveJWTToken(userResponse.token);
-        return { user: userResponse, isAuthenticated: !!JWTService.getJWTToken() };
-    }
-
-    @MutationAction
-    public async registerUser(user: User) {
-        const userResponse: UserResponse = await UserService.registerUser(user);
-        JWTService.saveJWTToken(userResponse.token);
-        return { user: userResponse, isAuthenticated: !!JWTService.getJWTToken() };
-    }
-
-    @MutationAction
-    public async modifyUser(user: UserResponse | null) {
-        const userResponse: UserResponse = await UserService.modifyUser(user);
         JWTService.saveJWTToken(userResponse.token);
         return { user: userResponse, isAuthenticated: !!JWTService.getJWTToken() };
     }
