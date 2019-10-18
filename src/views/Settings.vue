@@ -15,7 +15,7 @@
               <input
                 class="form-control"
                 type="text"
-                v-model="user.image"
+                v-model="userSubmit.image"
                 placeholder="URL of profile picture"
               />
             </fieldset>
@@ -24,7 +24,7 @@
               <input
                 class="form-control form-control-lg"
                 type="text"
-                v-model="user.username"
+                v-model="userSubmit.username"
                 placeholder="Your Name"
               />
             </fieldset>
@@ -33,7 +33,7 @@
               <textarea
                 class="form-control form-control-lg"
                 rows="8"
-                v-model="user.bio"
+                v-model="userSubmit.bio"
                 placeholder="Short bio about you"
                 spellcheck="false"
               ></textarea>
@@ -43,7 +43,7 @@
               <input
                 class="form-control form-control-lg"
                 type="text"
-                v-model="user.email"
+                v-model="userSubmit.email"
                 placeholder="Email"
               />
             </fieldset>
@@ -52,7 +52,7 @@
               <input
                 class="form-control form-control-lg"
                 type="password"
-                v-model="user.password"
+                v-model="userSubmit.password"
                 placeholder="Password"
               />
             </fieldset>
@@ -79,6 +79,7 @@ import { UserResponse } from "@/models/User";
 @Component
 export default class Settings extends Vue {
   private user: UserResponse | null = {} as UserResponse;
+  private userSubmit: UserResponse | null = {} as UserResponse;
   private errors: SettingsFormErrors = {
     email: "",
     username: ""
@@ -86,6 +87,10 @@ export default class Settings extends Vue {
 
   private created() {
     this.user = users!.user;
+    this.userSubmit.image = this.user!.image;
+    this.userSubmit.username = this.user!.username;
+    this.userSubmit.bio = this.user!.bio;
+    this.userSubmit.email = this.user!.email;
   }
 
   private async updateUserSettings() {
@@ -94,9 +99,9 @@ export default class Settings extends Vue {
       username: ""
     };
     users
-      .modifyUser(this.user)
+      .modifyUser(this.userSubmit)
       .then(() => {
-        this.$router.push("/@" + this.user!.username);
+        this.$router.push("/@" + this.userSubmit!.username);
       })
       .catch((error) => {
         this.validateFormInputParameters(error.response.data.errors);
