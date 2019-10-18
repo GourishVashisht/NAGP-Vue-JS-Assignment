@@ -13,3 +13,9 @@ export interface SettingsFormErrors {
     email: string;
     username: string;
 }
+
+export interface ArticleFormErrors {
+    title: string;
+    body: string;
+    description: string;
+}

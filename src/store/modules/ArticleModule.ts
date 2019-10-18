@@ -53,21 +53,29 @@ class ArticleModule extends VuexModule {
         return { article };
     }
 
-    @MutationAction
+    @MutationAction({ mutate: ["article"], rawError: true })
     public async addArticle(art: Article | any) {
-        const article = await ArticleService.addArticle(art);
-        return { article };
+        try {
+            const article = await ArticleService.addArticle(art);
+            return { article };
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    @MutationAction({ mutate: ["article"], rawError: true })
+    public async modifyArticle({ slug, art }: { slug: string, art: Article }) {
+        try {
+            const article = await ArticleService.modifyArticle(slug, art);
+            return { article };
+        } catch (error) {
+            throw error;
+        }
     }
 
     @MutationAction
     public async deleteArticle(slug: string) {
         const article = await ArticleService.deleteArticle(slug);
-        return { article };
-    }
-
-    @MutationAction
-    public async modifyArticle({ slug, art }: { slug: string, art: Article }) {
-        const article = await ArticleService.modifyArticle(slug, art);
         return { article };
     }
 

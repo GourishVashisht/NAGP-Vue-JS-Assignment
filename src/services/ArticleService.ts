@@ -29,27 +29,35 @@ export const ArticleService = {
     },
 
     async addArticle(article: Article): Promise<Article> {
-        await setJWT(typeof (JWTService.getJWTToken()) === "string"
-            ? String(JWTService.getJWTToken()) : "");
-        const res = await api.post("/articles/", {
-            article
-        });
-        return res.data.article;
+        try {
+            await setJWT(typeof (JWTService.getJWTToken()) === "string"
+                ? String(JWTService.getJWTToken()) : "");
+            const res = await api.post("/articles/", {
+                article
+            });
+            return res.data.article;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    async modifyArticle(slug: string, article: Article): Promise<Article> {
+        try {
+            await setJWT(typeof (JWTService.getJWTToken()) === "string"
+                ? String(JWTService.getJWTToken()) : "");
+            const res = await api.put("/articles/" + slug, {
+                article
+            });
+            return res.data.article;
+        } catch (error) {
+            throw error;
+        }
     },
 
     async deleteArticle(slug: string): Promise<Article> {
         await setJWT(typeof (JWTService.getJWTToken()) === "string"
             ? String(JWTService.getJWTToken()) : "");
         const res = await api.delete("/articles/" + slug);
-        return res.data.article;
-    },
-
-    async modifyArticle(slug: string, article: Article): Promise<Article> {
-        await setJWT(typeof (JWTService.getJWTToken()) === "string"
-            ? String(JWTService.getJWTToken()) : "");
-        const res = await api.put("/articles/" + slug, {
-            article
-        });
         return res.data.article;
     },
 
