@@ -25,13 +25,7 @@
       <h1>{{ article.title }}</h1>
       <p>{{ article.description }}</p>
       <span>Read more...</span>
-      <ul class="tag-list">
-        <li
-          class="tag-default tag-pill tag-outline"
-          v-for="(tag, index) in article.tagList"
-          :key="index"
-        >{{tag}}</li>
-      </ul>
+      <TagList :tags="article.tagList" />
     </router-link>
   </div>
 </template>
@@ -40,8 +34,13 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { Article } from "@/models/Article";
 import articles from "@/store/modules/ArticleModule";
+import TagList from "@/components/common/TagList.vue";
 
-@Component
+@Component({
+  components: {
+    TagList
+  }
+})
 export default class ArticlePreview extends Vue {
   @Prop() public article?: Article;
 

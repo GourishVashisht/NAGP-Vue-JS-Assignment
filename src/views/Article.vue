@@ -24,11 +24,7 @@
       <div class="row article-content">
         <div class="col-md-12">
           <p>{{article.body}}</p>
-          <ul class="tag-list">
-            <li v-for="(tag, index) in article.tagList" :key="index">
-              <router-link class="tag-default tag-pill tag-outline" to="/">{{tag}}</router-link>
-            </li>
-          </ul>
+          <TagList :tags="article.tagList" />
         </div>
       </div>
 
@@ -80,6 +76,7 @@ import JWTService from "@/services/JWTService";
 import CommentCard from "@/components/comment/CommentCard.vue";
 import CommentEditor from "@/components/comment/CommentEditor.vue";
 import ArticleActions from "@/components/article/ArticleActions.vue";
+import TagList from "@/components/common/TagList.vue";
 import articles from "@/store/modules/ArticleModule";
 import users from "@/store/modules/UserModule";
 import comments from "@/store/modules/CommentModule";
@@ -88,7 +85,8 @@ import comments from "@/store/modules/CommentModule";
   components: {
     ArticleActions,
     CommentCard,
-    CommentEditor
+    CommentEditor,
+    TagList
   }
 })
 export default class MyArticle extends Vue {

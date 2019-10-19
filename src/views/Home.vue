@@ -33,7 +33,7 @@
           <div class="sidebar">
             <p>Popular Tags</p>
             <div class="tag-list">
-              <HomeTagList :tags="tags"></HomeTagList>
+              <HomeTagList :tags="tags" />
             </div>
           </div>
         </div>
