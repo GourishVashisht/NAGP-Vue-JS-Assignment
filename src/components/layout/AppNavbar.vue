@@ -27,7 +27,7 @@
               &nbsp;{{username}}
             </em>
           </template>
-          <b-dropdown-item :to="'@' + username">
+          <b-dropdown-item @click="navigateToProfile()">
             <i class="ion-person"></i>
             &nbsp;Profile
           </b-dropdown-item>
@@ -63,6 +63,10 @@ export default class AppNavbar extends Vue {
     if (this.$route.path !== "/") {
       this.$router.push("/");
     }
+  }
+
+  private navigateToProfile() {
+    this.$router.push(`/@${users.username}`);
   }
 
   private async created() {
