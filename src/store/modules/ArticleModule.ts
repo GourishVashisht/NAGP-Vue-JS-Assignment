@@ -3,7 +3,7 @@ import {
 } from "vuex-module-decorators";
 import store from "@/store";
 import { ArticleService } from "@/services/ArticleService";
-import { Article, ArticleResponse, ArticleSearchParams } from "@/models/Article";
+import { Article, ArticleResponse, ArticleSearchParams, ArticleSubmit } from "@/models/Article";
 
 @Module({
     dynamic: true,
@@ -54,9 +54,9 @@ class ArticleModule extends VuexModule {
     }
 
     @MutationAction({ mutate: ["article"], rawError: true })
-    public async addArticle(art: Article | any) {
+    public async addArticle(articleSumbit: ArticleSubmit) {
         try {
-            const article = await ArticleService.addArticle(art);
+            const article = await ArticleService.addArticle(articleSumbit);
             return { article };
         } catch (error) {
             throw error;
@@ -64,7 +64,7 @@ class ArticleModule extends VuexModule {
     }
 
     @MutationAction({ mutate: ["article"], rawError: true })
-    public async modifyArticle({ slug, art }: { slug: string, art: Article }) {
+    public async modifyArticle({ slug, art }: { slug: string, art: ArticleSubmit }) {
         try {
             const article = await ArticleService.modifyArticle(slug, art);
             return { article };

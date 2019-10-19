@@ -25,3 +25,10 @@ export interface ArticleSearchParams {
     author?: string;
     favorited?: string;
 }
+
+export interface ArticleSubmit {
+    title: string;
+    description: string;
+    body: string;
+    tagList?: string[];
+}

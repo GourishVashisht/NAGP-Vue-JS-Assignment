@@ -1,5 +1,5 @@
 import { api, setJWT, removeJWT } from "./api";
-import { Article, ArticleResponse, ArticleSearchParams } from "@/models/Article";
+import { Article, ArticleResponse, ArticleSearchParams, ArticleSubmit } from "@/models/Article";
 import JWTService from "./JWTService";
 
 export const ArticleService = {
@@ -28,7 +28,7 @@ export const ArticleService = {
         return res.data.article;
     },
 
-    async addArticle(article: Article): Promise<Article> {
+    async addArticle(article: ArticleSubmit): Promise<Article> {
         try {
             await setJWT(typeof (JWTService.getJWTToken()) === "string"
                 ? String(JWTService.getJWTToken()) : "");
@@ -41,7 +41,7 @@ export const ArticleService = {
         }
     },
 
-    async modifyArticle(slug: string, article: Article): Promise<Article> {
+    async modifyArticle(slug: string, article: ArticleSubmit): Promise<Article> {
         try {
             await setJWT(typeof (JWTService.getJWTToken()) === "string"
                 ? String(JWTService.getJWTToken()) : "");
