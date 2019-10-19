@@ -39,14 +39,9 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { Article } from "@/models/Article";
-import TagList from "@/components/common/TagList.vue";
 import articles from "@/store/modules/ArticleModule";
 
-@Component({
-  components: {
-    TagList
-  }
-})
+@Component
 export default class ArticlePreview extends Vue {
   @Prop() public article?: Article;
 

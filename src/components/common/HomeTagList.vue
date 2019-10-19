@@ -12,7 +12,7 @@ import { Vue, Prop, Component, Emit } from "vue-property-decorator";
 import tags from "@/store/modules/TagModule";
 
 @Component
-export default class TagList extends Vue {
+export default class HomeTagList extends Vue {
   @Prop() private tags?: string[];
 
   private filterArticlesForTag(selectedTag: string) {

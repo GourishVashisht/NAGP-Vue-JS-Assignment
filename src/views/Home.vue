@@ -33,7 +33,7 @@
           <div class="sidebar">
             <p>Popular Tags</p>
             <div class="tag-list">
-              <TagList :tags="tags"></TagList>
+              <HomeTagList :tags="tags"></HomeTagList>
             </div>
           </div>
         </div>
@@ -45,12 +45,12 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import users from "@/store/modules/UserModule";
-import TagList from "@/components/common/TagList.vue";
+import HomeTagList from "@/components/common/HomeTagList.vue";
 import tags from "@/store/modules/TagModule";
 
 @Component({
   components: {
-    TagList
+    HomeTagList
   }
 })
 export default class Home extends Vue {
