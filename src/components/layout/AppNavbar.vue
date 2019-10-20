@@ -48,7 +48,6 @@ import JWTService from "@/services/JWTService";
 @Component
 export default class AppNavbar extends Vue {
   private activeNavbarItem: string = "";
-  // private username: string | null= "";
 
   get isAuthenticated(): boolean {
     return users.isAuthenticated;
@@ -72,7 +71,6 @@ export default class AppNavbar extends Vue {
   private async created() {
     if (JWTService.getJWTToken()) {
       await users.fetchUser();
-      // this.username = users!.username;
     }
   }
 

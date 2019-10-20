@@ -6,7 +6,6 @@ export const ArticleService = {
 
     async getArticles(articleSearchParams: ArticleSearchParams): Promise<ArticleResponse> {
         try {
-            await removeJWT();
             const ARTICLE_URL = `/articles?offset=${articleSearchParams.offset}&limit=${articleSearchParams.limit}`;
             const TAG_URL = articleSearchParams.tag ? `&tag=${articleSearchParams.tag}` : "";
             const AUTHOR_URL = articleSearchParams.author ? `&author=${articleSearchParams.author}` : "";

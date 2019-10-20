@@ -13,7 +13,7 @@
         <span class="date">{{ article.createdAt | date }}</span>
       </div>
       <button
-        v-bind:class="{ favorite: article.favorited }"
+        v-bind:class="{ favorite: (article.favorited && isFavoriteHighlighted) }"
         class="btn btn-outline-primary btn-sm pull-xs-right"
         @click="updateFavoriteArticle()"
       >
@@ -34,6 +34,7 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { Article } from "@/models/Article";
 import articles from "@/store/modules/ArticleModule";
+import users from "@/store/modules/UserModule";
 import TagList from "@/components/common/TagList.vue";
 
 @Component({
@@ -43,6 +44,10 @@ import TagList from "@/components/common/TagList.vue";
 })
 export default class ArticlePreview extends Vue {
   @Prop() public article?: Article;
+
+  get isFavoriteHighlighted() {
+    return users!.isAuthenticated;
+  }
 
   private updateFavoriteArticle() {
     if (this.article!.favorited) {
