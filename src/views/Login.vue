@@ -37,7 +37,7 @@
             </fieldset>
             <div id="password-error" class="error-text error-messages">{{errors.password}}</div>
 
-            <button class="btn btn-lg btn-primary pull-xs-right">Sign in</button>
+            <button id="sign-in-button" class="btn btn-lg btn-primary pull-xs-right">Sign in</button>
           </form>
         </div>
       </div>

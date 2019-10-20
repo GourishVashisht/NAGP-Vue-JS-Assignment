@@ -7,7 +7,7 @@
         <b-nav-item to="/">
           <i class="ion-home"></i>&nbsp;Home
         </b-nav-item>
-        <b-nav-item v-if="!isAuthenticated" to="/login">
+        <b-nav-item id="login-link" v-if="!isAuthenticated" to="/login">
           <i class="ion-log-in"></i> Sign In
         </b-nav-item>
         <b-nav-item v-if="!isAuthenticated" to="/register">
