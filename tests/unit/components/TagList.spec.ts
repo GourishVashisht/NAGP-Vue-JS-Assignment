@@ -23,7 +23,8 @@ describe("TagList ", () => {
   });
 
   it("should display tags provided as props from parent component", () => {
-    expect((wrapper.findAll("li").length)).toEqual(3);
+    expect(wrapper.props().tags).toEqual(tagList);
+    expect(wrapper.findAll("li").length).toEqual(3);
     expect(wrapper.findAll("li").at(0).text()).toEqual("Tag1");
     expect(wrapper.findAll("li").at(1).text()).toEqual("Tag2");
     expect(wrapper.findAll("li").at(2).text()).toEqual("Tag3");

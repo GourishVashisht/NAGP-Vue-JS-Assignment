@@ -8,8 +8,9 @@
             <router-link to="/register">Need an account?</router-link>
           </p>
 
-          <form>
+          <form @submit.prevent="loginUser">
             <div
+              id="generic-error"
               class="error-text error-messages"
               style="text-decoration: underline"
             >{{genericError}}</div>
@@ -23,7 +24,7 @@
                 @keydown="removeErrorMessage(0)"
               />
             </fieldset>
-            <div class="error-text error-messages">{{errors.email}}</div>
+            <div id="email-error" class="error-text error-messages">{{errors.email}}</div>
 
             <fieldset class="form-group">
               <input
@@ -34,9 +35,9 @@
                 @keydown="removeErrorMessage(1)"
               />
             </fieldset>
-            <div class="error-text error-messages">{{errors.password}}</div>
+            <div id="password-error" class="error-text error-messages">{{errors.password}}</div>
 
-            <button class="btn btn-lg btn-primary pull-xs-right" @click="loginUser()">Sign in</button>
+            <button class="btn btn-lg btn-primary pull-xs-right">Sign in</button>
           </form>
         </div>
       </div>
@@ -48,12 +49,17 @@
 import { Vue, Component } from "vue-property-decorator";
 import users from "@/store/modules/UserModule";
 import { LoginFormErrors } from "@/models/Errors";
+import { User } from "@/models/User";
 
 @Component
 export default class Login extends Vue {
   private email: string = "";
   private password: string = "";
   private genericError: string = "";
+  private user: User = {
+    email: "",
+    password: ""
+  };
   private errors: LoginFormErrors = {
     email: "",
     password: ""
@@ -65,12 +71,12 @@ export default class Login extends Vue {
       email: "",
       password: ""
     };
-    const user = {
+    this.user = {
       email: this.email,
       password: this.password
     };
     users
-      .loginUser(user)
+      .loginUser(this.user)
       .then(() => {
         this.$router.push("/");
       })
