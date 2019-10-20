@@ -23,6 +23,26 @@ class ProfileModule extends VuexModule {
             throw error;
         }
     }
+
+    @MutationAction({ mutate: ["profile"], rawError: true })
+    public async followProfileUser(profileName: string) {
+        try {
+            const profile: Profile = await ProfileService.followProfileUser(profileName);
+            return { profile };
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    @MutationAction({ mutate: ["profile"], rawError: true })
+    public async unfollowProfileUser(profileName: string) {
+        try {
+            const profile: Profile = await ProfileService.unfollowProfileUser(profileName);
+            return { profile };
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export default getModule(ProfileModule);

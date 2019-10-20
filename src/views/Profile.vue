@@ -7,27 +7,25 @@
             <img :src="profile.image" class="user-img" />
             <h4>{{ profile.username }}</h4>
             <p>{{ profile.bio }}</p>
-            <!-- <div v-if="isCurrentUser()"> -->
-            <div>
-              <router-link class="btn btn-sm btn-outline-secondary action-btn" to="/settings">
+            <div v-if="isCurrentUser()">
+              <router-link class="btn btn-sm btn-outline-secondary action-btn btn-follow" to="/settings">
                 <i class="ion-gear-a"></i> Edit Profile Settings
               </router-link>
             </div>
-            <!-- <div v-else> -->
-            <div>
+            <div v-else>
               <button
-                class="btn btn-sm btn-secondary action-btn"
+                class="btn btn-sm btn-outline-secondary action-btn btn-follow"
                 v-if="profile.following"
-                @click="unfollow()"
+                @click="unfollowUser()"
               >
                 <i class="ion-plus-round"></i>
                 &nbsp;Unfollow
                 {{ profile.username }}
               </button>
               <button
-                class="btn btn-sm btn-outline-secondary action-btn"
+                class="btn btn-sm btn-outline-secondary action-btn btn-follow"
                 v-if="!profile.following"
-                @click="follow()"
+                @click="followUser()"
               >
                 <i class="ion-plus-round"></i>
                 &nbsp;Follow
@@ -88,11 +86,30 @@ export default class Profile extends Vue {
   private async created() {
     await profiles.fetchProfile(this.$route.params.username);
   }
+
+  private isCurrentUser() {
+    if (this.user && this.profile) {
+      return this.user.username === this.profile.username;
+    }
+    return false;
+  }
+
+  private async followUser() {
+    await profiles.followProfileUser(this.$route.params.username);
+  }
+
+  private async unfollowUser() {
+    await profiles.unfollowProfileUser(this.$route.params.username);
+  }
 }
 </script>
 
 <style scoped>
 .profile {
   margin-top: 40px;
+}
+
+.btn-follow:hover {
+  color: white;
 }
 </style>

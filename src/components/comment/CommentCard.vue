@@ -75,8 +75,6 @@ export default class CommentCard extends Vue {
 
   private async editCommentAndSave() {
     this.editedComment = this.comment;
-    // comment and comment body dono se dekh liya
-    // no progress
     await comments.editComment({
       slug: this.slug ? this.slug : "",
       commentId: this.comment!.id,
