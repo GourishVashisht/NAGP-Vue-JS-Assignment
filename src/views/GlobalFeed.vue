@@ -12,7 +12,7 @@
         v-model="currentPage"
         :total-rows="articlesCount"
         :per-page="articlesPerPage"
-        limit="10"
+        :limit="limitForPagination"
       ></b-pagination>
       <span class="tag-name">{{tagName}}</span>
     </div>
@@ -36,6 +36,7 @@ export default class GlobalFeed extends Vue {
   private currentPage: number = 1;
   private articlesPerPage: number = 10;
   private articlesCount: number = 0;
+  private limitForPagination: number = 1;
   private selectedTag: string = "";
   private tag: string = "";
 
@@ -46,8 +47,7 @@ export default class GlobalFeed extends Vue {
   get tagName() {
     if (tags.selectedTag) {
       this.tag = tags.selectedTag;
-      this.currentPage = 1;
-      this.getUpdatedArticles();
+      this.getArticlesFeed();
     } else {
       this.tag = "";
     }
@@ -57,7 +57,7 @@ export default class GlobalFeed extends Vue {
   @Watch("currentPage")
   public onPageChanged(): void {
     this.isLoading = true;
-    this.getUpdatedArticles();
+    this.getArticlesFeed();
     window.scrollTo(0, 0);
   }
 
@@ -65,16 +65,12 @@ export default class GlobalFeed extends Vue {
   public refreshListAgain(): void {
     if (this.shouldListBeFetchedAgain) {
       this.isLoading = true;
-      this.getUpdatedArticles();
+      this.getArticlesFeed();
       this.$emit("toggleState", !this.shouldListBeFetchedAgain);
     }
   }
 
   private async created() {
-    await this.getArticlesFeed();
-  }
-
-  private async getUpdatedArticles() {
     await this.getArticlesFeed();
   }
 
@@ -86,6 +82,16 @@ export default class GlobalFeed extends Vue {
     });
     this.isLoading = false;
     this.articlesCount = articles.articlesCount;
+    this.limitForPagination = this.getArticleLimit();
+  }
+
+  private getArticleLimit(): number {
+    const index = this.articlesCount / 10;
+    if (index >= 10 && index <= 50) {
+      return 10;
+    } else {
+      return index;
+    }
   }
 }
 </script>
