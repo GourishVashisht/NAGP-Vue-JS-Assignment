@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import tags from "@/store/modules/TagModule";
 
 Vue.use(Router);
 
@@ -14,12 +15,24 @@ export default new Router({
         {
           name: "home",
           path: "/",
-          component: () => import("@/views/GlobalFeed.vue")
+          component: () => import("@/views/GlobalFeed.vue"),
+          beforeEnter: (to, from, next) => {
+            if (tags.selectedTag) {
+              tags.setSelectedTag("");
+            }
+            next();
+          }
         },
         {
           name: "home-my-feed",
           path: "/my-feed",
-          component: () => import("@/views/MyFeed.vue")
+          component: () => import("@/views/MyFeed.vue"),
+          beforeEnter: (to, from, next) => {
+            if (tags.selectedTag) {
+              tags.setSelectedTag("");
+            }
+            next();
+          }
         }
       ]
     },
