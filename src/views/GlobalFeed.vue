@@ -46,6 +46,7 @@ export default class GlobalFeed extends Vue {
   get tagName() {
     if (tags.selectedTag) {
       this.tag = tags.selectedTag;
+      this.currentPage = 1;
       this.getUpdatedArticles();
     } else {
       this.tag = "";
