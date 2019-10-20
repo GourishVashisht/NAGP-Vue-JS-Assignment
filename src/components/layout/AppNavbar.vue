@@ -4,19 +4,19 @@
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav class="ml-auto">
-        <b-nav-item to="/">
+        <b-nav-item id="home-navlink" to="/">
           <i class="ion-home"></i>&nbsp;Home
         </b-nav-item>
-        <b-nav-item id="login-link" v-if="!isAuthenticated" to="/login">
+        <b-nav-item id="login-navlink" v-if="!isAuthenticated" to="/login">
           <i class="ion-log-in"></i> Sign In
         </b-nav-item>
-        <b-nav-item v-if="!isAuthenticated" to="/register">
+        <b-nav-item id="register-navlink" v-if="!isAuthenticated" to="/register">
           <i class="ion-person-add"></i> Sign Up
         </b-nav-item>
-        <b-nav-item v-if="isAuthenticated" to="/editor">
+        <b-nav-item id="editor-navlink" v-if="isAuthenticated" to="/editor">
           <i class="ion-compose"></i>&nbsp;New Article
         </b-nav-item>
-        <b-nav-item v-if="isAuthenticated" to="/settings">
+        <b-nav-item id="settings-navlink" v-if="isAuthenticated" to="/settings">
           <i class="ion-gear-a"></i>&nbsp;Settings
         </b-nav-item>
 

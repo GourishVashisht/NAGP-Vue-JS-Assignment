@@ -1,6 +1,6 @@
 // https://docs.cypress.io/api/introduction/api.html
 
-describe('My e2e Test', () => {
+describe('My Home page e2e Tests', () => {
 
   it('should visit the app root url and validate title', () => {
     cy.visit('/')
@@ -12,17 +12,15 @@ describe('My e2e Test', () => {
     cy.contains('p', 'A place to share your knowledge.')
   });
 
-  // it('should validate all navbar elements', () => {
-  //   console.log(cy.get('b-navbar b-collapse b-navbar-nav'))
-  // });
+  it('should validate all navbar elements', () => {
+    cy.get('#home-navlink').contains('Home');
+    cy.get('#login-navlink').contains('Sign In');
+    cy.get('#register-navlink').contains('Sign Up');
+  });
 
   it('should validate all footer elements', () => {
     cy.get('#footer-name').contains('NAGP Assignment 2019');
     cy.get('#developer-name').contains('By Gourish Vashisht');
   });
-
-  // it('should visit register page when sign up link in navbar is clicked', () => {
-
-  // })
 
 })
