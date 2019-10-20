@@ -1,5 +1,5 @@
 <template>
-  <form class="card comment-form" @submit.prevent="postComment">
+  <form class="card comment-form">
     <div class="card-block">
       <textarea
         class="form-control"
@@ -10,7 +10,7 @@
     </div>
     <div class="card-footer">
       <img :src="image" class="comment-author-img author-image-left" />
-      <button class="btn btn-sm btn-primary">Post Comment</button>
+      <button class="btn btn-sm btn-primary" type="button" @click="postComment()">Post Comment</button>
     </div>
   </form>
 </template>
