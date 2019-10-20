@@ -40,10 +40,14 @@ export const UserService = {
     },
 
     async fetchUser(): Promise<UserResponse> {
-        await setJWT(typeof (JWTService.getJWTToken()) === "string"
-            ? String(JWTService.getJWTToken()) : "");
-        const userResponse = await api.get("/user");
-        return userResponse.data.user;
+        try {
+            await setJWT(typeof (JWTService.getJWTToken()) === "string"
+                ? String(JWTService.getJWTToken()) : "");
+            const userResponse = await api.get("/user");
+            return userResponse.data.user;
+        } catch (error) {
+            throw error;
+        }
     }
 
 };

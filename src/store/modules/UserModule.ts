@@ -20,6 +20,13 @@ class UserModule extends VuexModule {
         return this.user ? this.user.username : null;
     }
 
+    @Mutation
+    public async logoutUser() {
+        JWTService.destroyJWTToken();
+        this.user = null;
+        this.isAuthenticated = false;
+    }
+
     @MutationAction({ mutate: ["user", "isAuthenticated"], rawError: true })
     public async loginUser(user: User) {
         try {
@@ -53,18 +60,15 @@ class UserModule extends VuexModule {
         }
     }
 
-    @MutationAction
+    @MutationAction({ mutate: ["user", "isAuthenticated"], rawError: true })
     public async fetchUser() {
-        const userResponse: UserResponse = await UserService.fetchUser();
-        JWTService.saveJWTToken(userResponse.token);
-        return { user: userResponse, isAuthenticated: !!JWTService.getJWTToken() };
-    }
-
-    @Mutation
-    public async logoutUser() {
-        JWTService.destroyJWTToken();
-        this.user = null;
-        this.isAuthenticated = false;
+        try {
+            const userResponse: UserResponse = await UserService.fetchUser();
+            JWTService.saveJWTToken(userResponse.token);
+            return { user: userResponse, isAuthenticated: !!JWTService.getJWTToken() };
+        } catch (error) {
+            throw error;
+        }
     }
 }
 

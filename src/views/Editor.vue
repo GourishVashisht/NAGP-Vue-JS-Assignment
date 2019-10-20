@@ -6,7 +6,7 @@
           <h2 class="text-xs-center">
             <span>{{pageHeader}}</span>&nbsp;Article
           </h2>
-          <form>
+          <form @submit.prevent="submitArticle">
             <fieldset class="form-group">
               <input
                 type="text"
@@ -60,11 +60,7 @@
                 </span>
               </div>
               <div style="float: right;">
-                <button
-                  class="btn btn-lg pull-xs-right btn-success publish-button"
-                  type="button"
-                  @click="submitArticle()"
-                >Publish Article</button>
+                <button class="btn btn-lg pull-xs-right btn-success publish-button">Publish Article</button>
               </div>
             </div>
           </form>

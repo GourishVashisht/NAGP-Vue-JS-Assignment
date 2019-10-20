@@ -14,10 +14,14 @@ class ProfileModule extends VuexModule {
 
     public profile: Profile | null = null;
 
-    @MutationAction
+    @MutationAction({ mutate: ["profile"], rawError: true })
     public async fetchProfile(profileName: string) {
-        const profile: Profile = await ProfileService.fetchProfile(profileName);
-        return { profile };
+        try {
+            const profile: Profile = await ProfileService.fetchProfile(profileName);
+            return { profile };
+        } catch (error) {
+            throw error;
+        }
     }
 }
 

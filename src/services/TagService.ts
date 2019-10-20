@@ -3,8 +3,12 @@ import { api } from "./api";
 export const TagService = {
 
     async getTags(): Promise<string[]> {
-        const response = await api.get("/tags");
-        return response.data.tags;
+        try {
+            const response = await api.get("/tags");
+            return response.data.tags;
+        } catch (error) {
+            throw error;
+        }
     },
 
 };

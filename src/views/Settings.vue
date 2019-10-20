@@ -5,7 +5,7 @@
         <div class="col-md-6 offset-md-3 col-xs-12">
           <h2 class="text-xs-center">Your Settings</h2>
 
-          <form>
+          <form @submit.prevent="updateUserSettings">
             <ul class="error-text">
               <li class="error-text error-messages" v-if="errors.username">{{errors.username}}</li>
               <li class="error-text error-messages" v-if="errors.email">{{errors.email}}</li>
@@ -57,10 +57,7 @@
               />
             </fieldset>
 
-            <button
-              class="btn btn-lg btn-primary pull-xs-right"
-              @click="updateUserSettings()"
-            >Update Settings</button>
+            <button class="btn btn-lg btn-primary pull-xs-right">Update Settings</button>
           </form>
           <hr />
           <button @click="signoutUser()" class="btn btn-outline-danger">Or click here to logout.</button>

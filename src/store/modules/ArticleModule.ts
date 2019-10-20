@@ -29,28 +29,40 @@ class ArticleModule extends VuexModule {
         });
     }
 
-    @MutationAction
+    @MutationAction({ mutate: ["articles", "articlesCount"], rawError: true })
     public async getArticles(articleSearchParams: ArticleSearchParams) {
-        const articleResponse: ArticleResponse = await ArticleService.getArticles(articleSearchParams);
-        return {
-            articles: articleResponse.articles,
-            articlesCount: articleResponse.articlesCount
-        };
+        try {
+            const articleResponse: ArticleResponse = await ArticleService.getArticles(articleSearchParams);
+            return {
+                articles: articleResponse.articles,
+                articlesCount: articleResponse.articlesCount
+            };
+        } catch (error) {
+            throw error;
+        }
     }
 
-    @MutationAction
+    @MutationAction({ mutate: ["feed", "articlesCount"], rawError: true })
     public async getFeed(articleSearchParams: ArticleSearchParams) {
-        const articleResponse: ArticleResponse = await ArticleService.getFeed(articleSearchParams);
-        return {
-            feed: articleResponse.articles,
-            articlesCount: articleResponse.articlesCount
-        };
+        try {
+            const articleResponse: ArticleResponse = await ArticleService.getFeed(articleSearchParams);
+            return {
+                feed: articleResponse.articles,
+                articlesCount: articleResponse.articlesCount
+            };
+        } catch (error) {
+            throw error;
+        }
     }
 
-    @MutationAction
+    @MutationAction({ mutate: ["article"], rawError: true })
     public async getArticle(slug: string) {
-        const article = await ArticleService.getArticle(slug);
-        return { article };
+        try {
+            const article = await ArticleService.getArticle(slug);
+            return { article };
+        } catch (error) {
+            throw error;
+        }
     }
 
     @MutationAction({ mutate: ["article"], rawError: true })
@@ -73,31 +85,47 @@ class ArticleModule extends VuexModule {
         }
     }
 
-    @MutationAction
+    @MutationAction({ mutate: ["article"], rawError: true })
     public async deleteArticle(slug: string) {
-        const article = await ArticleService.deleteArticle(slug);
-        return { article };
+        try {
+            const article = await ArticleService.deleteArticle(slug);
+            return { article };
+        } catch (error) {
+            throw error;
+        }
     }
 
-    @Action
+    @Action({ rawError: true })
     public async addFavoriteArticle(slug: string) {
-        const response = await ArticleService.addFavoriteArticle(slug);
-        await this.context.commit("updateArticleInArticleList", response.article);
+        try {
+            const response = await ArticleService.addFavoriteArticle(slug);
+            await this.context.commit("updateArticleInArticleList", response.article);
+        } catch (error) {
+            throw error;
+        }
     }
 
-    @Action
+    @Action({ rawError: true })
     public async removeFavoriteArticle(slug: string) {
-        const response = await ArticleService.removeFavoriteArticle(slug);
-        await this.context.commit("updateArticleInArticleList", response.article);
+        try {
+            const response = await ArticleService.removeFavoriteArticle(slug);
+            await this.context.commit("updateArticleInArticleList", response.article);
+        } catch (error) {
+            throw error;
+        }
     }
 
-    @MutationAction
+    @MutationAction({ mutate: ["articles", "articlesCount"], rawError: true })
     public async getFavoriteArticles(articleSearchParams: ArticleSearchParams) {
-        const articleResponse: ArticleResponse = await ArticleService.getFavoriteArticles(articleSearchParams);
-        return {
-            articles: articleResponse.articles,
-            articlesCount: articleResponse.articlesCount
-        };
+        try {
+            const articleResponse: ArticleResponse = await ArticleService.getFavoriteArticles(articleSearchParams);
+            return {
+                articles: articleResponse.articles,
+                articlesCount: articleResponse.articlesCount
+            };
+        } catch (error) {
+            throw error;
+        }
     }
 }
 

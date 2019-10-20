@@ -8,7 +8,7 @@
             <router-link to="/login">Have an account?</router-link>
           </p>
 
-          <form>
+          <form @submit.prevent="registerUser">
             <fieldset class="form-group">
               <input
                 class="form-control form-control-lg"
@@ -46,7 +46,7 @@
             </fieldset>
             <div class="error-text error-messages">{{errors.password}}</div>
 
-            <button class="btn btn-lg btn-primary pull-xs-right" @click="registerUser()">Sign up</button>
+            <button class="btn btn-lg btn-primary pull-xs-right">Sign up</button>
           </form>
         </div>
       </div>

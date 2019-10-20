@@ -19,10 +19,14 @@ class TagModule extends VuexModule {
         this.selectedTag = tagName;
     }
 
-    @MutationAction
+    @MutationAction({ mutate: ["tags"], rawError: true })
     public async getTags() {
-        const tags: string[] = await TagService.getTags();
-        return { tags };
+        try {
+            const tags: string[] = await TagService.getTags();
+            return { tags };
+        } catch (error) {
+            throw error;
+        }
     }
 }
 
