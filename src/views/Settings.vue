@@ -87,10 +87,7 @@ export default class Settings extends Vue {
 
   private created() {
     this.user = users!.user;
-    this.userSubmit.image = this.user!.image;
-    this.userSubmit.username = this.user!.username;
-    this.userSubmit.bio = this.user!.bio;
-    this.userSubmit.email = this.user!.email;
+    this.userSubmit = Object.assign({}, this.user);
   }
 
   private async updateUserSettings() {
