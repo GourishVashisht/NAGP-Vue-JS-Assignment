@@ -1,5 +1,5 @@
 <template>
-  <div class="settings settings-page" v-if="user">
+  <div class="settings-page" v-if="user">
     <div class="container page">
       <div class="row">
         <div class="col-md-6 offset-md-3 col-xs-12">
@@ -126,10 +126,6 @@ export default class Settings extends Vue {
 </script>
 
 <style scoped>
-.settings {
-  margin-top: 60px;
-}
-
 fieldset {
   margin-bottom: 16px !important;
 }

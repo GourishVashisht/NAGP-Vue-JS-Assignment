@@ -1,43 +1,56 @@
 <template>
-  <b-navbar class="app-header" toggleable="lg" variant="light" fixed="top">
-    <b-navbar-brand class="app-brand-name" to="/">Conduit</b-navbar-brand>
-    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-    <b-collapse id="nav-collapse" is-nav>
-      <b-navbar-nav class="ml-auto">
-        <b-nav-item id="home-navlink" to="/">
-          <i class="ion-home"></i>&nbsp;Home
-        </b-nav-item>
-        <b-nav-item id="login-navlink" v-if="!isAuthenticated" to="/login">
-          <i class="ion-log-in"></i> Sign In
-        </b-nav-item>
-        <b-nav-item id="register-navlink" v-if="!isAuthenticated" to="/register">
-          <i class="ion-person-add"></i> Sign Up
-        </b-nav-item>
-        <b-nav-item id="editor-navlink" v-if="isAuthenticated" to="/editor">
-          <i class="ion-compose"></i>&nbsp;New Article
-        </b-nav-item>
-        <b-nav-item id="settings-navlink" v-if="isAuthenticated" to="/settings">
-          <i class="ion-gear-a"></i>&nbsp;Settings
-        </b-nav-item>
-
-        <b-nav-item-dropdown v-if="username" right>
-          <template v-slot:button-content>
-            <em>
-              <fa-icon icon="user-circle"></fa-icon>
-              &nbsp;{{username}}
-            </em>
-          </template>
-          <b-dropdown-item @click="navigateToProfile()">
-            <i class="ion-person"></i>
-            &nbsp;Profile
-          </b-dropdown-item>
-          <b-dropdown-item @click="signoutUser()">
-            <i class="ion-log-out"></i>&nbsp;Sign Out
-          </b-dropdown-item>
-        </b-nav-item-dropdown>
-      </b-navbar-nav>
-    </b-collapse>
-  </b-navbar>
+  <div>
+    <nav class="navbar navbar-light navbar-color">
+      <div class="container">
+        <router-link class="navbar-brand" to="/">Conduit</router-link>
+        <ul class="nav navbar-nav pull-xs-right navbar-items">
+          <li class="nav-item">
+            <router-link class="nav-link" id="home-navlink" to="/">
+              <i class="ion-home"></i>&nbsp;Home
+            </router-link>
+          </li>
+          <li class="nav-item" v-if="!isAuthenticated">
+            <router-link class="nav-link" id="login-navlink" to="/login">
+              <i class="ion-log-in"></i>&nbsp;Sign In
+            </router-link>
+          </li>
+          <li class="nav-item" v-if="!isAuthenticated">
+            <router-link class="nav-link" id="register-navlink" to="/register">
+              <i class="ion-person-add"></i>&nbsp;Sign Up
+            </router-link>
+          </li>
+          <li class="nav-item" v-if="isAuthenticated">
+            <router-link class="nav-link" id="editor-navlink" to="/editor">
+              <i class="ion-compose"></i>&nbsp;New Article
+            </router-link>
+          </li>
+          <li class="nav-item" v-if="isAuthenticated">
+            <router-link class="nav-link" id="settings-navlink" to="/settings">
+              <i class="ion-gear-a"></i>&nbsp;Settings
+            </router-link>
+          </li>
+          <li class="nav-item" v-if="username">
+            <b-dropdown
+              id="dropdown-right"
+              right
+              :text="username"
+              variant="outline-danger"
+              class="m-1"
+              size="sm"
+            >
+              <b-dropdown-item @click="navigateToProfile()">
+                <i class="ion-person"></i>
+                &nbsp;Profile
+              </b-dropdown-item>
+              <b-dropdown-item @click="signoutUser()">
+                <i class="ion-log-out"></i>&nbsp;Sign Out
+              </b-dropdown-item>
+            </b-dropdown>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
 </template>
 
 <script lang="ts">
@@ -47,8 +60,6 @@ import JWTService from "@/services/JWTService";
 
 @Component
 export default class AppNavbar extends Vue {
-  private activeNavbarItem: string = "";
-
   get isAuthenticated(): boolean {
     return users.isAuthenticated;
   }
@@ -73,22 +84,6 @@ export default class AppNavbar extends Vue {
       await users.fetchUser();
     }
   }
-
-  private selectActiveNavText() {
-    if (this.$route.name === "home") {
-      this.activeNavbarItem = "home";
-    } else if (this.$route.name === "login") {
-      this.activeNavbarItem = "login";
-    } else if (this.$route.name === "register") {
-      this.activeNavbarItem = "register";
-    } else if (this.$route.name === "editor") {
-      this.activeNavbarItem = "editor";
-    } else if (this.$route.name === "settings") {
-      this.activeNavbarItem = "settings";
-    } else if (this.$route.name === "profile") {
-      this.activeNavbarItem = "profile";
-    }
-  }
 }
 </script>
 
@@ -97,7 +92,13 @@ export default class AppNavbar extends Vue {
   margin-left: 30px !important;
   text-transform: lowercase !important;
 }
+.navbar-color {
+  background-color: rgb(250, 239, 239);
+}
 .navTextActive {
   text-decoration-line: underline;
+}
+.navbar-items {
+  flex-direction: row !important;
 }
 </style>

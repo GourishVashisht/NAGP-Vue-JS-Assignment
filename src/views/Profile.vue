@@ -1,5 +1,5 @@
 <template>
-  <div class="profile profile-page">
+  <div class="profile-page">
     <div class="user-info" v-if="profile">
       <div class="container">
         <div class="row">
@@ -105,10 +105,6 @@ export default class Profile extends Vue {
 </script>
 
 <style scoped>
-.profile {
-  margin-top: 40px;
-}
-
 .btn-follow:hover {
   color: white;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="editor editor-page">
+  <div class="editor-page">
     <div class="container page">
       <div class="row">
         <div class="col-md-10 offset-md-1 col-xs-12">
@@ -193,10 +193,6 @@ export default class Editor extends Vue {
 </script>
 
 <style scoped>
-.editor {
-  margin-top: 60px;
-}
-
 .error-block-last {
   margin-bottom: 0 !important;
 }

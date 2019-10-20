@@ -1,9 +1,7 @@
 <template>
   <div id="app">
     <AppNavbar></AppNavbar>
-    <div class="routes">
-      <router-view />
-    </div>
+    <router-view></router-view>
     <AppFooter></AppFooter>
   </div>
 </template>
@@ -19,10 +17,3 @@ import users from "@/store/modules/UserModule";
 })
 export default class App extends Vue {}
 </script>
-
-<style>
-.routes {
-  margin-top: 40px;
-  margin-bottom: 54px;
-}
-</style>
