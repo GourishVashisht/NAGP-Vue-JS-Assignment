@@ -14,6 +14,7 @@
         :per-page="articlesPerPage"
         limit="10"
       ></b-pagination>
+      <span class="tag-name">{{tagName}}</span>
     </div>
   </div>
 </template>
@@ -30,24 +31,25 @@ import tags from "@/store/modules/TagModule";
   }
 })
 export default class MyFeed extends Vue {
-  private isLoading: boolean;
-  private currentPage: number;
-  private articlesPerPage: number;
-  private articlesCount: number;
-
-  constructor() {
-    super();
-    this.isLoading = true;
-    this.currentPage = 1;
-    this.articlesPerPage = 10;
-    this.articlesCount = 0;
-  }
+  @Prop() private shouldListBeFetchedAgain?: boolean;
+  private isLoading: boolean = true;
+  private currentPage: number = 1;
+  private articlesPerPage: number = 10;
+  private articlesCount: number = 0;
+  private selectedTag: string = "";
+  private tag: string = "";
 
   get articles() {
     return articles.feed;
   }
 
   get tagName() {
+    if (tags.selectedTag) {
+      this.tag = tags.selectedTag;
+      this.getUpdatedFeed();
+    } else {
+      this.tag = "";
+    }
     return tags.selectedTag;
   }
 
@@ -58,24 +60,37 @@ export default class MyFeed extends Vue {
     window.scrollTo(0, 0);
   }
 
+  @Watch("shouldListBeFetchedAgain")
+  public refreshListAgain(): void {
+    if (this.shouldListBeFetchedAgain) {
+      this.isLoading = true;
+      this.getUpdatedFeed();
+      this.$emit("toggleState", !this.shouldListBeFetchedAgain);
+    }
+  }
+
   private async created() {
-    await articles.getFeed({
-      offset: (this.currentPage - 1) * this.articlesPerPage,
-      limit: this.articlesPerPage,
-      tag: this.tagName
-    });
-    this.isLoading = false;
-    this.articlesCount = articles.articlesCount;
+    await this.getArticlesFeed();
   }
 
   private async getUpdatedFeed() {
+    await this.getArticlesFeed();
+  }
+
+  private async getArticlesFeed() {
     await articles.getFeed({
       offset: (this.currentPage - 1) * this.articlesPerPage,
       limit: this.articlesPerPage,
-      tag: this.tagName
+      tag: this.tag
     });
     this.isLoading = false;
     this.articlesCount = articles.articlesCount;
   }
 }
 </script>
+
+<style scoped>
+.tag-name {
+  display: none;
+}
+</style>

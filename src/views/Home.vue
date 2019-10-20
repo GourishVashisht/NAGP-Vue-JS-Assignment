@@ -27,7 +27,10 @@
               </li>
             </ul>
           </div>
-          <router-view></router-view>
+          <router-view
+            :shouldListBeFetchedAgain="shouldListBeFetched"
+            @toggleState="refreshState()"
+          ></router-view>
         </div>
         <div class="col-md-3">
           <div class="sidebar">
@@ -54,6 +57,8 @@ import tags from "@/store/modules/TagModule";
   }
 })
 export default class Home extends Vue {
+  private shouldListBeFetchedAgain: boolean = false;
+
   private get username() {
     return users.username;
   }
@@ -66,12 +71,21 @@ export default class Home extends Vue {
     return tags.selectedTag;
   }
 
+  private get shouldListBeFetched() {
+    return this.shouldListBeFetchedAgain;
+  }
+
   private async created() {
     await tags.getTags();
   }
 
+  private refreshState() {
+    this.shouldListBeFetchedAgain = !this.shouldListBeFetchedAgain;
+  }
+
   private async removeTag() {
     await tags.setSelectedTag("");
+    this.shouldListBeFetchedAgain = true;
   }
 }
 </script>

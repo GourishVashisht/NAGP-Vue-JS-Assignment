@@ -14,7 +14,7 @@
         :per-page="articlesPerPage"
         limit="10"
       ></b-pagination>
-      <span style="display: none">{{tagName}}</span>
+      <span class="tag-name">{{tagName}}</span>
     </div>
   </div>
 </template>
@@ -31,6 +31,7 @@ import tags from "@/store/modules/TagModule";
   }
 })
 export default class GlobalFeed extends Vue {
+  @Prop() private shouldListBeFetchedAgain?: boolean;
   private isLoading: boolean = true;
   private currentPage: number = 1;
   private articlesPerPage: number = 10;
@@ -46,6 +47,8 @@ export default class GlobalFeed extends Vue {
     if (tags.selectedTag) {
       this.tag = tags.selectedTag;
       this.getUpdatedArticles();
+    } else {
+      this.tag = "";
     }
     return tags.selectedTag;
   }
@@ -57,17 +60,24 @@ export default class GlobalFeed extends Vue {
     window.scrollTo(0, 0);
   }
 
+  @Watch("shouldListBeFetchedAgain")
+  public refreshListAgain(): void {
+    if (this.shouldListBeFetchedAgain) {
+      this.isLoading = true;
+      this.getUpdatedArticles();
+      this.$emit("toggleState", !this.shouldListBeFetchedAgain);
+    }
+  }
+
   private async created() {
-    await articles.getArticles({
-      offset: (this.currentPage - 1) * this.articlesPerPage,
-      limit: this.articlesPerPage,
-      tag: this.tag
-    });
-    this.isLoading = false;
-    this.articlesCount = articles.articlesCount;
+    await this.getArticlesFeed();
   }
 
   private async getUpdatedArticles() {
+    await this.getArticlesFeed();
+  }
+
+  private async getArticlesFeed() {
     await articles.getArticles({
       offset: (this.currentPage - 1) * this.articlesPerPage,
       limit: this.articlesPerPage,
@@ -78,3 +88,9 @@ export default class GlobalFeed extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.tag-name {
+  display: none;
+}
+</style>
