@@ -65,7 +65,7 @@ export default class Login extends Vue {
     password: ""
   };
 
-  private loginUser() {
+  private loginUser(): void {
     this.genericError = "";
     this.errors = {
       email: "",
@@ -85,7 +85,7 @@ export default class Login extends Vue {
       });
   }
 
-  private validateFormInputParameters(errors: any) {
+  private validateFormInputParameters(errors: any): void {
     if (errors["email or password"]) {
       if (!this.email) {
         this.errors.email = "Email " + errors["email or password"];

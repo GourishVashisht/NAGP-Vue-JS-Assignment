@@ -71,7 +71,7 @@ export default class Register extends Vue {
     password: ""
   };
 
-  private registerUser() {
+  private registerUser(): void {
     this.errors = {
       username: "",
       email: "",
@@ -92,7 +92,7 @@ export default class Register extends Vue {
       });
   }
 
-  private validateFormInputParameters(errors: any) {
+  private validateFormInputParameters(errors: any): void {
     if (errors.username) {
       this.errors.username = "Username " + errors.username.join(" & ");
     }

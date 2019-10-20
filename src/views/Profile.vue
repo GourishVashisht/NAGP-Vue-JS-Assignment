@@ -87,7 +87,7 @@ export default class Profile extends Vue {
     await profiles.fetchProfile(this.$route.params.username);
   }
 
-  private isCurrentUser() {
+  private isCurrentUser(): boolean {
     if (this.user && this.profile) {
       return this.user.username === this.profile.username;
     }

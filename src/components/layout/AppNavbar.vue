@@ -60,12 +60,18 @@ import JWTService from "@/services/JWTService";
 
 @Component
 export default class AppNavbar extends Vue {
-  get isAuthenticated(): boolean {
+  get isAuthenticated() {
     return users.isAuthenticated;
   }
 
-  get username(): string | null {
+  get username() {
     return users.username;
+  }
+
+  private async created() {
+    if (JWTService.getJWTToken()) {
+      await users.fetchUser();
+    }
   }
 
   private async signoutUser() {
@@ -75,14 +81,8 @@ export default class AppNavbar extends Vue {
     }
   }
 
-  private navigateToProfile() {
+  private navigateToProfile(): void {
     this.$router.push(`/@${users.username}`);
-  }
-
-  private async created() {
-    if (JWTService.getJWTToken()) {
-      await users.fetchUser();
-    }
   }
 }
 </script>

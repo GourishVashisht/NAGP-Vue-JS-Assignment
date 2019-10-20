@@ -94,7 +94,21 @@ export default class Editor extends Vue {
     description: ""
   };
 
-  public submitArticle(): void {
+  private async created() {
+    if (this.$route.params.slug) {
+      await articles.getArticle(this.$route.params.slug).then(() => {
+        this.title = articles.article!.title;
+        this.description = articles.article!.description;
+        this.body = articles.article!.body;
+        this.tagList = articles.article!.tagList;
+      });
+      this.pageHeader = "Edit";
+    } else {
+      this.pageHeader = "Add New";
+    }
+  }
+
+  private submitArticle(): void {
     if (this.$route.params.slug) {
       articles
         .modifyArticle({
@@ -119,20 +133,6 @@ export default class Editor extends Vue {
     }
   }
 
-  private async created() {
-    if (this.$route.params.slug) {
-      await articles.getArticle(this.$route.params.slug).then(() => {
-        this.title = articles.article!.title;
-        this.description = articles.article!.description;
-        this.body = articles.article!.body;
-        this.tagList = articles.article!.tagList;
-      });
-      this.pageHeader = "Edit";
-    } else {
-      this.pageHeader = "Add New";
-    }
-  }
-
   private addTagToTaglist(event: KeyboardEvent): void {
     if (event.code === "Enter") {
       if (!this.checkIfTagAlreadyPresent() && this.tagName) {
@@ -151,7 +151,7 @@ export default class Editor extends Vue {
     this.tagList.splice(tagNameIndex, 1);
   }
 
-  private validateFormInputParameters(errors: any) {
+  private validateFormInputParameters(errors: any): void {
     if (errors.title) {
       this.errors.title = "Title " + errors.title.join(" & ");
     }

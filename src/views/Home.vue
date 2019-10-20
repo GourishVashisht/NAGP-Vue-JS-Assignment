@@ -59,6 +59,10 @@ import tags from "@/store/modules/TagModule";
 export default class Home extends Vue {
   private shouldListBeFetchedAgain: boolean = false;
 
+  private async created() {
+    await tags.getTags();
+  }
+
   private get username() {
     return users.username;
   }
@@ -71,15 +75,11 @@ export default class Home extends Vue {
     return tags.selectedTag;
   }
 
-  private get shouldListBeFetched() {
+  private get shouldListBeFetched(): boolean {
     return this.shouldListBeFetchedAgain;
   }
 
-  private async created() {
-    await tags.getTags();
-  }
-
-  private refreshState() {
+  private refreshState(): void {
     this.shouldListBeFetchedAgain = !this.shouldListBeFetchedAgain;
   }
 

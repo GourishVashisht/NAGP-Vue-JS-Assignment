@@ -49,7 +49,7 @@ export default class ArticlePreview extends Vue {
     return users!.isAuthenticated;
   }
 
-  private updateFavoriteArticle() {
+  private updateFavoriteArticle(): void {
     if (this.article!.favorited) {
       articles.removeFavoriteArticle(this.article!.slug);
     } else {

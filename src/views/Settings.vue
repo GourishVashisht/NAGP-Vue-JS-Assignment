@@ -109,7 +109,7 @@ export default class Settings extends Vue {
       });
   }
 
-  private validateFormInputParameters(errors: any) {
+  private validateFormInputParameters(errors: any): void {
     if (errors.email) {
       this.errors.email = "Email " + errors.email.join(" & ");
     }

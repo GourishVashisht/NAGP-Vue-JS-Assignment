@@ -46,7 +46,7 @@ export default class CommentCard extends Vue {
   @Prop() private comment?: Comment;
   @Prop() private slug?: string;
 
-  private created() {
+  private created(): void {
     this.commentBody = this.comment!.body;
   }
 
@@ -69,7 +69,7 @@ export default class CommentCard extends Vue {
     this.editedComment = this.comment;
   }
 
-  private cancelCommentEditing() {
+  private cancelCommentEditing(): void {
     this.isEditMode = false;
   }
 

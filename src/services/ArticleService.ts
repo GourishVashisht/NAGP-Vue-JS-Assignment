@@ -76,7 +76,7 @@ export const ArticleService = {
         }
     },
 
-    async addFavoriteArticle(slug: string) {
+    async addFavoriteArticle(slug: string): Promise<any> {
         try {
             await setJWT(typeof (JWTService.getJWTToken()) === "string"
                 ? String(JWTService.getJWTToken()) : "");
@@ -87,7 +87,7 @@ export const ArticleService = {
         }
     },
 
-    async removeFavoriteArticle(slug: string) {
+    async removeFavoriteArticle(slug: string): Promise<any> {
         try {
             await setJWT(typeof (JWTService.getJWTToken()) === "string"
                 ? String(JWTService.getJWTToken()) : "");
